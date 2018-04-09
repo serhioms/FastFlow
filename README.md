@@ -59,9 +59,9 @@ The log is:
 
 		Hello,FastFlow!!
 
-Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run() method - "java null" in this case.
+Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run() method (null in this case).
 
-The hello workflow combines 4 sequential tasks and 2 parallel tasks in 2 level tree. Next example of famous 100 Bottle song much more complicated and finally represented by [100 level tree of sequential->parrallel->sequential->parallel->*** workflow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java).
+The hello workflow combines 4 sequential tasks and 2 parallel tasks which represented by 2 level tree flow. Next example of famous 99 Bottle song much more complicated and finally represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tree flow.
 
 ## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
 There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
