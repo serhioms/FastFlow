@@ -183,4 +183,4 @@ Since fast flow is not published to any maven repository you can [download lates
 
 <???>
 
-License is [MIT](https://github.com/serhioms/FastFlow/LICENSE)
+License is [MIT](https://github.com/serhioms/FastFlow/blob/master/LICENSE)
