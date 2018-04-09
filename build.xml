@@ -1,0 +1,63 @@
+<!DOCTYPE project>
+<project name="ExprInt">
+
+	<property name="basedir" value="." />
+
+	<property name="jarfile" value="exprint-jar-with-dependencies.jar" />
+
+	<property name="maven.opts" value="-Dmaven.test.skip=true" />
+	<property name="maven.home" value="C:/mss/tools/apache-maven-3.5.2" />
+
+	<macrodef name="maven">
+		<attribute name="options" default="" />
+		<attribute name="goal" />
+		<attribute name="basedir" />
+		<attribute name="resultproperty" default="maven.result" />
+		<element name="args" implicit="true" optional="true" />
+		<sequential>
+			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}" resultproperty="@{resultproperty}">
+				<jvmarg value="-Xmx512m" />
+				<classpath>
+					<fileset dir="${maven.home}/boot">
+						<include name="*.jar" />
+					</fileset>
+					<fileset dir="${maven.home}/lib">
+						<include name="*.jar" />
+					</fileset>
+				</classpath>
+				<sysproperty key="classworlds.conf" value="${maven.home}/bin/m2.conf" />
+				<sysproperty key="maven.home" value="${maven.home}" />
+				<arg line="--batch-mode @{options} @{goal}" />
+			</java>
+		</sequential>
+	</macrodef>
+
+	<target name="build.maven">
+      <maven basedir="${basedir}"
+             options="${maven.opts}"
+             goal="package"
+             resultproperty="maven.build.result"/>
+	</target>
+
+	<target name="run.main.cmd">
+		<exec dir="." executable="cmd.exe">
+			<arg value="/c" />
+			<arg value="run-main.cmd" />
+		</exec>
+	</target>
+
+	<target name="run.test.cmd">
+		<exec dir="." executable="cmd.exe">
+			<arg value="/c" />
+			<arg value="run-test.cmd" />
+		</exec>
+	</target>
+
+	<target name="exec.main">
+		<exec dir="." executable="java.exe">
+			<arg value="-cp" />
+			<arg value="target/classes;target/${jarfile}" />
+			<arg value="org.exprint.Main" />
+		</exec>
+	</target>
+</project>
