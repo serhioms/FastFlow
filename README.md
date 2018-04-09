@@ -11,28 +11,29 @@ It is multithreaded and very fast! Almost same fast as [LMax Disruptor](https://
 
 Since [LMax Disruptor](https://github.com/LMAX-Exchange/disruptor) get announced by [LMax](https://www.lmax.com/) multi-threaded programming become a downtrend way of doing high performance programming in java. Lets get it back! We are leaving in the world of multi-core CPU! By the way nothing can stop you from using thread pool executor with one thread only...
 
-Another feature is generic workflow context which represents task data.
+Another feature is generic workflow context which represents task's data.
 
 ## Big idea
-The Big Idea is switching from MVC toward MVW where classic controller done vie workflow! There are lots of advantages from this approach like easy parallel programming (as simple as sequential), controller logic visualization (like any workflow does), task unification. Lets get out of hard-coded controller in your application. 
+The Big Idea is switching from MVC toward MVW where classic controller done vie workflow! There are lots of advantages from this approach like easy parallel programming (as simple as sequential), controller logic visualization (like any workflow does), task unification. Lets get out of hard-coded controller in your applications. 
 
 ## Sequential execution
-Sequential execution start by executing the first task and continue by executing next task in sequence. Usually it requires one thread only. But fast flow executes them most likely in separate threads with non-blocking synchronization in between. Start given task, after end of task pickup next one from the sequence and queued it up into executor's queue. 
+Sequential execution start by executing the first task and continue by executing next task in sequence. Usually it requires one thread only. But fast flow executes them most likely in separate threads with non-blocking synchronization in between. Start given task first then as soon as task ends execute next one from the sequence. 
 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/sequential.png)
 
 ## Parallel execution
-For given number of parallel tasks we need same amount of threads to run them all in parallel aka simultaneously or concurrently. Depends mostly on how many CPU cores are in place. Summarize all that pros and cons fast flow set size of thread pool executor exactly same as number of CPU cores. Then queues all parallel tasks into executor's queue. As soon as last one ends pick up next task from parent flow without blocking parent thread but just calculating number of performed parallel children instead!
+For given number of parallel tasks we need same amount of threads to run them all in parallel aka simultaneously or concurrently. Depends mostly on how many CPU cores are in place. Summarize all that pros and cons fast flow sets size of thread pool executor exactly same as number of CPU cores. Then queues all parallel tasks into executor's queue. As soon as last task ends pick up next task from parent flow end execute it without blocking parent thread.
 
-If you are single thread adherent or LMax Disruptor follower just set up thread pool having one thread only. Fast flow engine guarantee all work be done regardless any complexity of sequential-parallel-asynchronous tasks composition in your workflow.
+If you are single thread adherent or LMax Disruptor follower just set up thread pool having one thread only. Fast flow engine guarantees all work be done regardless complexity of tasks composition in your workflow.
 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/parallel.png)
 
 ## Asynchronous execution
-From [XPDL](http://www.xpdl.org/standards/xpdl-2.2/XPDL%202.2%20(2012-02-24).pdf) prospective asynchronous tasks equivalent to NON-BLOCKED AND-FORKED transitions to number of asynchronous tasks. Looks exactly same as parallel execution but without any thread synchronization between parent and children - parent queued them all in executor queue and forget. Then fast flow engine pick up next task from parent flow and continue execution logic regardless of state of any asynchronous child.  
+Works exactly same way as parallel execution but without any thread synchronization between parent and children - starts them all and forget. 
 
-Actually combination of sequential tasks and asynchronous tasks in your workflow with thread pool size equals 2 equivalent to [Disruptor Flow project](https://github.com/serhioms/DisruptorFlow) presented in my github public page. Lets compare performance of same flow then:
+Actually composition of sequential and asynchronous tasks in your workflow with thread pool size equals 2 preatty equivalent to [Disruptor Flow project](https://github.com/serhioms/DisruptorFlow) from my github. That is iteresting to compare performance for the same flow:
 
+<???>
 
 ## Hello World demo
 
