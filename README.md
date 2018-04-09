@@ -36,6 +36,7 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 <???>
 
 ## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloFastFlow.java)
+Here is most simple way to try fast flow:
 
 		FastFlow<String> ff = new FastFlow<String>();
 		
@@ -55,14 +56,17 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 		ff.shutdown();
 
 The log is:
+
 		Hello,FastFlow!!
 
-Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object pass in hello.run() method - it is "java null" in this case.
+Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run() method - "java null" in this case.
+
+The hello workflow combines 4 sequential tasks and 2 parallel tasks in 2 level tree. Next example of famous 100 Bottle song much more complicated and finally represented by [100 level tree of sequential->parrallel->sequential->parallel->*** workflow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java).
 
 ## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
 There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
 
-As expected blocking implementation get hangs on the last bottle!
+As expected blocking implementation get hangs on the last bottle because it requires minimum 100 threads in the executor's pool to be available!
 
 	100 bottles of beer on the wall, 100 bottles of beer.
 	Take one down, pass it around, la, lA, La, LA, 99 bottles of beer on the wall, 99 bottles of beer.
@@ -76,7 +80,9 @@ As expected blocking implementation get hangs on the last bottle!
 	Max wait 99 tasks
 	Thread pool size 99
 
-Non-blocking implementations both 1 thread only and couple threads works fine till the end.
+Non-blocking implementations works fine on any pool with greater then 0 available threads.
+
+Here is 8-threads fast flow log:
 
 	100 bottles of beer on the wall, 100 bottles of beer.
 	Take one down, pass it around, la, lA, La, LA, 99 bottles of beer on the wall, 99 bottles of beer.
@@ -90,7 +96,7 @@ Non-blocking implementations both 1 thread only and couple threads works fine ti
 	Max wait 8 tasks
 	Max pool size 8
 
-Here is single threaded log
+Here is 1-thread fast flow log:
 	
 	***
 	Scheduled 702 tasks
