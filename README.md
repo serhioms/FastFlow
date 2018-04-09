@@ -3,17 +3,17 @@ Simple, light and very fast workflow engine which perform sequential, parallel a
 
 This is a regular Maven project.
 
-# What is not implemented?
+## What is not implemented?
 There is no joins in fast flow but forks only. There is no conditional transitions but unconditional only. 
 
-# What is special?
+## What is special?
 It is multithreaded and very fast! Almost same fast as [LMax Disruptor](https://martinfowler.com/articles/lmax.html) because of non blocking thread synchronization. It makes it twice faster then original blocking algorithm demonstrated by [Federico Peralta high-order runnables](https://github.com/boundsofjava/boj-newsletter-001/blob/master/src/main/java/com/boundsofjava/newsletter/higherorderrunnable/HigherOrderRunnable.java) in his great article ["The bounds of java"](http://boundsofjava.com/newsletter/001-higher-order-runnables). 
 
 Since [LMax Disruptor](https://github.com/LMAX-Exchange/disruptor) get announced by [LMax](https://www.lmax.com/) multi-threaded programming become a downtrend way of doing high performance programming in java. Lets get it back! We are leaving in the world of multi-core CPU! By the way nothing can stop you from using thread pool executor with one thread only...
 
 Another feature is generic workflow context which represents task data.
 
-# Big idea
+## Big idea
 The Big Idea is switching from MVC toward MVW where classic controller done vie workflow! There are lots of advantages from this approach like easy parallel programming (as simple as sequential), controller logic visualization (like any workflow does), task unification. Lets get out of hard-coded controller in your application. 
 
 ## Sequential execution
