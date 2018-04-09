@@ -35,9 +35,46 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 
 <???>
 
-## Hello World demo
+## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloFastFlow.java)
 
 ## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
+There are 3 implementations of this demo: [vie blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
+
+As expected blocking implementation get hangs on the last bottle!
+
+	100 bottles of beer on the wall, 100 bottles of beer.
+	Take one down, pass it around, la, lA, La, LA, 99 bottles of beer on the wall, 99 bottles of beer.
+	***
+	Take one down, pass it around, la, lA, La, LA, 1 bottles of beer on the wall, 1 bottles of beer.
+	Take one down, pass it around, === hangs!!! ===
+	
+	Scheduled 495 tasks
+	Completed 495 tasks
+	Aborted 4 tasks
+	Max wait 99 tasks
+	Thread pool size 99
+
+Non-blocking implementations both 1 thread only and couple threads works fine till the end.
+
+	100 bottles of beer on the wall, 100 bottles of beer.
+	Take one down, pass it around, la, lA, La, LA, 99 bottles of beer on the wall, 99 bottles of beer.
+	***
+	Take one down, pass it around, lA, la, LA, La, 1 bottles of beer on the wall, 1 bottles of beer.
+	Take one down, pass it around, la, La, lA, LA, No more bottles of beer on the wall, no more bottles of beer.
+	We've taken them down and passed them around; now we're drunk and passed out!
+	
+	Scheduled 702 tasks
+	Completed 702 tasks
+	Max wait 8 tasks
+	Max pool size 8
+
+Here is single threaded log
+	
+	***
+	Scheduled 702 tasks
+	Completed 702 tasks
+	Max wait 1 tasks
+	Max pool size 1
 
 ## Exception handling
 
