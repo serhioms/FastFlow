@@ -104,20 +104,9 @@ Here is 1-thread fast flow log:
 	Max wait 1 tasks
 	Max pool size 1
 
-## Exception handling
-
-Exception Handler is generic class which fast flow call in case of any exception during the run. Default handler just print stack trace into System.err:
-
-	    fastflow.setExceptionHandler(new ExceptionHandler<TestContext>(){
-	        @Override
-	        public TaskTransition handleTaskException((task, ex)->{
-	            System.err.printf("Task %s get failed %s\n", task, ex.getMessage());
-	            return TaskTransition.ContinueExecution;
-	        }
-	    });
-
 ## [Workflow context](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloContext.java)
-Flow context is any java object. Must be provided in flow run method. The context propagates among all flow tasks. Check hello implementation below:
+Flow context is any java object provided in flow run method which propagates among all flow tasks. 
+Here is another hello workflow:
 
 	public class HelloTask implements FwTask<HelloContext> {
 	
@@ -167,6 +156,18 @@ Here is the log:
 	4) !
 	5) !
 	6) 
+
+## Exception handling
+
+Exception Handler is generic class which fast flow call in case of any exception during the run. Default handler just print stack trace into System.err:
+
+	    fastflow.setExceptionHandler(new ExceptionHandler<TestContext>(){
+	        @Override
+	        public TaskTransition handleTaskException((task, ex)->{
+	            System.err.printf("Task %s get failed %s\n", task, ex.getMessage());
+	            return TaskTransition.ContinueExecution;
+	        }
+	    });
 
 ## Usage
 Since fast flow is not published to maven repository you can [download latest jar](https://github.com/serhioms/DisruptorFlow/blob/master/distribution/fastflow-1.0.0.jar) and include it in your project. Otherwise try source code.
