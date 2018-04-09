@@ -37,8 +37,30 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 
 ## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloFastFlow.java)
 
+		FastFlow<String> ff = new FastFlow<String>();
+		
+		FwFlow<String> hello = ff.sequential.combine(
+				(a,b,c,d)->System.out.print("Hello"),
+				(a,b,c,d)->System.out.print(","),
+				(a,b,c,d)->System.out.print("FastFlow"),
+				ff.parallel.combine(
+						(a,b,c,d)->System.out.print("!"),
+						(a,b,c,d)->System.out.print("!")
+				),
+				(a,b,c,d)->System.out.println("")
+			);
+		
+		hello.run();
+		
+		ff.shutdown();
+
+The log is:
+		Hello,FastFlow!!
+
+Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object pass in hello.run() method - it is "java null" in this case.
+
 ## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
-There are 3 implementations of this demo: [vie blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
+There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
 
 As expected blocking implementation get hangs on the last bottle!
 
