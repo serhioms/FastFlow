@@ -1,30 +1,30 @@
 # Fast Flow
-Simple, light and very fast workflow engine which perform sequential, parallel and asynchronous tasks in thread pool executor. My workflow definition is as simple as bunch of tasks and transitions.
+Simple, light and very fast workflow engine which perform sequential, parallel and asynchronous tasks in thread pool executor. Where workflow is bunch of tasks and transitions.
 
 This is a regular Maven project.
 
 # What is not implemented?
-There is no joins in fast flow but forked transitions only. There is no conditional transition but unconditional only.
+There is no joins in fast flow but forks only. There is no conditional transitions but unconditional only. 
 
 # What is special?
-It is very fast! Almost same fast as [LMax Disruptor]() but totally multi-threaded. The heart is non blocking synchronization for parallel tasks execution. It makes it twice faster then original blocking algorithm demonstrated by [Federico Peralta's high-order function example]() in his great article ["The bounds of java"](https://github.com/boundsofjava/boj-newsletter-001). 
+It is multithreaded and very fast! Almost same fast as [LMax Disruptor](https://martinfowler.com/articles/lmax.html) because of non blocking thread synchronization. It makes it twice faster then original blocking algorithm demonstrated by [Federico Peralta high-order runnables](https://github.com/boundsofjava/boj-newsletter-001/blob/master/src/main/java/com/boundsofjava/newsletter/higherorderrunnable/HigherOrderRunnable.java) in his great article ["The bounds of java"](http://boundsofjava.com/newsletter/001-higher-order-runnables). 
 
-Since [LMax Disruptor]() get announced by [LMax]() multi-threaded programming become a down trend way of doing high performance programming in java. Lets get it back! We are leaving in the world of multi-core CPU!  What can stop you from using thread pool executor just with one thread? Since there is no concurrent locks in fast flow you have that flexability to make it happen.
+Since [LMax Disruptor](https://github.com/LMAX-Exchange/disruptor) get announced by [LMax](https://www.lmax.com/) multi-threaded programming become a downtrend way of doing high performance programming in java. Lets get it back! We are leaving in the world of multi-core CPU! By the way nothing can stop you from using thread pool executor with one thread only...
 
-Another good feature is flow context which is implemented vie java generics. 
+Another feature is generic workflow context which represents task data.
 
 # Big idea
-This project is a result of great impression from ["The bounds of java"]() article written by Federico Peralta. To me that is not just a perfect example of functional programming in java. To me it is the way of implementing my BIG IDEA - MVW instead of MVC! Where classic controller must be done as multi-threaded workflow engine! Lets make parallel programming as simple as sequential. Lets get out of hard-coded controller in your application toward easy extendable and visualizable one as simple as picture of states and transitions. The only show stopper is light and fast implementation. [Federico's high-order function ]() shows exactly the way.   
+The Big Idea is switching from MVC toward MVW where classic controller done vie workflow! There are lots of advantages from this approach like easy parallel programming (as simple as sequential), controller logic visualization (like any workflow does), task unification. Lets get out of hard-coded controller in your application. 
 
 ## Sequential execution
-From [XPDL](http://www.xpdl.org/standards/xpdl-2.2/XPDL%202.2%20(2012-02-24).pdf) prospective sequential tasks equivalent to automatic, FULL-BLOCKED sequential tasks. That is all true that sequential execution of any number of tasks requires exactly one thread. Even so fast flow sequential tasks are most likely running in separate threads! But totally synchronized without any thread blocking the way when given task ends fast flow engine queued next one from the sequence into executor's queue. 
+Sequential execution start by executing the first task and continue by executing next task in sequence. Usually it requires one thread only. But fast flow executes them most likely in separate threads with non-blocking synchronization in between. Start given task, after end of task pickup next one from the sequence and queued it up into executor's queue. 
 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/sequential.png)
 
 ## Parallel execution
-From [XPDL](http://www.xpdl.org/standards/xpdl-2.2/XPDL%202.2%20(2012-02-24).pdf) prospective parallel tasks equivalent to automatic, FULL-BLOCKED and AND-FORKED transitions to number of parallel tasks. Theoretically for given number of parallel tasks we need same amount of threads to run them all in parallel simultaneously. In reality any CPU has constant  number of cores which means it is totally useless to run more parallel tasks then CPU cores. To summarize all this pros and cons fast flow engine make size of thread pool executor are exactly the same as CPU cores regardless how many parallel tasks in your workflow - some of them will run simultaneously as JVM guarantee but others will wait in executor's queue for next available thread from the pool. Anyway all parallel tasks are totally synchronized against parent which means that parent must "wait" until last child finalize its work and then and only then start next task from parent flow. Why "wait" is quoted? Because fast flow do not block parent thread but calculate number of parallel children instead! That is the way to avoid any blocking synchronization. 
+For given number of parallel tasks we need same amount of threads to run them all in parallel aka simultaneously or concurrently. Depends mostly on how many CPU cores are in place. Summarize all that pros and cons fast flow set size of thread pool executor exactly same as number of CPU cores. Then queues all parallel tasks into executor's queue. As soon as last one ends pick up next task from parent flow without blocking parent thread but just calculating number of performed parallel children instead!
 
-If you are "single thread developer" aka LMax Disruptor follower then you can configure thread pool to have just one thread but fast flow engine guarantee all work will be done regardless any complexity of sequential-parallel-asynchronous task you have in your workflow.
+If you are single thread adherent or LMax Disruptor follower just set up thread pool having one thread only. Fast flow engine guarantee all work be done regardless any complexity of sequential-parallel-asynchronous tasks composition in your workflow.
 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/parallel.png)
 
