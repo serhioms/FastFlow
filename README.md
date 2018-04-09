@@ -104,7 +104,7 @@ Here is 1-thread fast flow log:
 	Max wait 1 tasks
 	Max pool size 1
 
-## [Workflow context](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloContext.java)
+## [Flow context](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloContext.java)
 Flow context is any java object provided in flow run method which propagates among all flow tasks. 
 Here is another hello workflow:
 
