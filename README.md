@@ -51,7 +51,7 @@ Here is most simple way to try fast flow:
 				(a,b,c,d)->System.out.println("")
 			);
 		
-		hello.run(null);
+		hello.start(null);
 		
 		ff.shutdown();
 
@@ -59,7 +59,7 @@ The log is:
 
 		Hello,FastFlow!!
 
-Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run(null) method (i.e. null).
+Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.start(null) method (i.e. null).
 
 The hello workflow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level tasks tree. Next example of slightly modified famous [99 Bottle song](https://en.wikipedia.org/wiki/99_Bottles_of_Beer) much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tasks tree.
 
@@ -147,7 +147,7 @@ Here is another hello workflow:
 					new HelloTask("")
 				);
 			
-			hello.run(new HelloContext());
+			hello.start(new HelloContext());
 			
 			ff.shutdown();
 		}
