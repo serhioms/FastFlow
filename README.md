@@ -61,9 +61,9 @@ The log is:
 
 Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run(null) method (i.e. null).
 
-The hello workflow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level tasks tree. Next example of slightly modified famous 99 Bottle song much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tasks tree.
+The hello workflow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level tasks tree. Next example of slightly modified famous [99 Bottle song](https://en.wikipedia.org/wiki/99_Bottles_of_Beer) much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tasks tree.
 
-## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
+## [100 Bottle demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java)
 There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
 
 As expected blocking implementation get hangs on the last bottle because it requires minimum 100 threads in the executor's pool to be available!
@@ -110,6 +110,9 @@ Here is another hello workflow:
 
 	public class HelloTask implements FwTask<HelloContext> {
 	
+		/*
+		 * Flow context represents bunch of properties of running flow 
+		 */
 		static public class HelloContext {
 			public AtomicInteger counter = new AtomicInteger(0); 
 		}
@@ -120,6 +123,9 @@ Here is another hello workflow:
 			this.phrase = phrase;
 		}
 	
+		/*
+		 * Flow task implementation has just A parameter - flow context
+		 */
 		@Override
 		public void job(HelloContext context) {
 			System.out.printf("%d) %s\n", context.counter.incrementAndGet(), phrase);
@@ -170,9 +176,11 @@ Exception Handler is generic class which fast flow call in case of any exception
 	    });
 
 ## Usage
-Since fast flow is not published to maven repository you can [download latest jar](https://github.com/serhioms/DisruptorFlow/blob/master/distribution/fastflow-1.0.0.jar) and include it in your project. Otherwise try source code.
+Since fast flow is not published to any maven repository you can [download latest jar](https://github.com/serhioms/DisruptorFlow/blob/master/distribution/fastflow-1.0.0.jar) and include it in your project or use source code as it is.
 
 
 ### Test Suit
 
 <???>
+
+License is [MIT](https://github.com/serhioms/FastFlow/LICENSE)
