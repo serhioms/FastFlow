@@ -35,15 +35,15 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 
 <???>
 
-## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloFastFlow.java)
+## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloWorld.java)
 Here is most simple way to try fast flow:
 
-		FastFlow<String> ff = new FastFlow<String>();
+		FastFlow<Object> ff = new FastFlow<Object>();
 		
-		FwFlow<String> hello = ff.sequential.combine(
+		FwFlow<Object> hello = ff.sequential.combine(
 				(a,b,c,d)->System.out.print("Hello"),
 				(a,b,c,d)->System.out.print(","),
-				(a,b,c,d)->System.out.print("FastFlow"),
+				(a,b,c,d)->System.out.print("World"),
 				ff.parallel.combine(
 						(a,b,c,d)->System.out.print("!"),
 						(a,b,c,d)->System.out.print("!")
@@ -51,7 +51,7 @@ Here is most simple way to try fast flow:
 				(a,b,c,d)->System.out.println("")
 			);
 		
-		hello.run();
+		hello.run(null);
 		
 		ff.shutdown();
 
@@ -59,9 +59,9 @@ The log is:
 
 		Hello,FastFlow!!
 
-Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run() method (null in this case).
+Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of them are really matter except first one A - it is the context object provided in hello.run(null) method (i.e. null).
 
-The hello workflow combines 4 sequential tasks and 2 parallel tasks which represented by 2 level tree flow. Next example of famous 99 Bottle song much more complicated and finally represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tree flow.
+The hello workflow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level tasks tree. Next example of slightly modified famous 99 Bottle song much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) tasks tree.
 
 ## [100 Bottle demo](https://en.wikipedia.org/wiki/99_Bottles_of_Beer)
 There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
@@ -116,14 +116,57 @@ Exception Handler is generic class which fast flow call in case of any exception
 	        }
 	    });
 
-## Workflow context
+## [Workflow context](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloContext.java)
+Flow context is any java object. Must be provided in flow run method. The context propagates among all flow tasks. Check hello implementation below:
 
-Flow context is java object. Must be provided in flow run method. The context will be propagated among all executed tasks.
+	public class HelloTask implements FwTask<HelloContext> {
+	
+		static public class HelloContext {
+			public AtomicInteger counter = new AtomicInteger(0); 
+		}
+	
+		public String phrase; 
+		
+		public HelloTask(String phrase) {
+			this.phrase = phrase;
+		}
+	
+		@Override
+		public void job(HelloContext context) {
+			System.out.printf("%d) %s\n", context.counter.incrementAndGet(), phrase);
+		}
+	
+		
+		public static void main(String[] args) throws InterruptedException {
+			
+			FastFlow<HelloContext> ff = new FastFlow<HelloContext>();
+			
+			FwFlow<HelloContext> hello = ff.sequential.combine(
+					new HelloTask("Hello"),
+					new HelloTask(","),
+					new HelloTask("World"),
+					ff.parallel.combine(
+							new HelloTask("!"),
+							new HelloTask("!")
+					),
+					new HelloTask("")
+				);
+			
+			hello.run(new HelloContext());
+			
+			ff.shutdown();
+		}
+	
+	}
 
-    public class TheContext {
-    	***
-    }
-    flow.run(new TheContext());
+Here is the log:
+
+	1) Hello
+	2) ,
+	3) World
+	4) !
+	5) !
+	6) 
 
 ## Usage
 Since fast flow is not published to maven repository you can [download latest jar](https://github.com/serhioms/DisruptorFlow/blob/master/distribution/fastflow-1.0.0.jar) and include it in your project. Otherwise try source code.
