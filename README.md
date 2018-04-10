@@ -157,19 +157,20 @@ Here is the log:
 	6) 
 
 ## Asynchronous execution
-Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - starts them all and forget. 
+Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - start them all and forget. 
 
-Actually composition of sequential and asynchronous task in your workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for the same flow started  200,000 times:
+Actually composition of sequential and asynchronous interfaces in workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for the same flow started  200,000 times:
 
-| Publisher(s) | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking) #8 consumer threads |
+| Publisher(s), mks | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking) #8 consumer threads |
 | --- | --- | --- | --- | --- | --- |
-| 1 thread | 0.16 | 0.5 | 0.3 | 1.5 | 7.5 |
-| 2 threads | 0.36| 3 | 3 | 4 | 10 |
-| 3 threads | 0.55| 4 | 5 | 5 | 11 |
-| 4 threads | 0.85| 5 | 6 | 6 | 12 |
-| 8 threads | 2.5 mks | 12 | 13 | 13 | 16 |
-| 16 threads | 9 mks | 25 | 25 | 38 | 28 |
+| 1 thread | 0.16 | 0.4 | 0.7 | 1.5 | 0.8 |
+| 2 threads | 0.36| 3 | 3 | 4 | 5 |
+| 3 threads | 0.55| 4 | 5 | 5 | 6 |
+| 4 threads | 0.85| 5 | 6 | 6 | 7 |
+| 8 threads | 2.5 | 12 | 13 | 13 | 13 |
+| 16 threads | 9 | 25 | 25 | 39 | 22 |
 
+So far LMax Disruptor based implementation 3-5 times faster then Fast Flow or High Order implementation. 
 
 ## Exception handling
 
