@@ -168,7 +168,7 @@ Actually composition of sequential and asynchronous task in your workflow runnin
 | 3 threads | 485 ns | 3.8 mks | 4.6 mks | 5.4 mks |
 | 4 threads | 545 ns | 4.9 mks | 5.7 mks | 6.0 mks |
 | 8 threads | 2.6 mks | 12.2 mks | 13.1 mks | 13.8 mks |
-| 16 threads | 8.6 mks | 25.3 mks | 25.8 mks | 34.3 |
+| 16 threads | 8.6 mks | 25.3 mks | 25.8 mks | 34.3 mks |
 
 
 ## Exception handling
