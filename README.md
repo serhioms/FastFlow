@@ -161,14 +161,14 @@ Works exactly same way as parallel execution but without any thread synchronizat
 
 Actually composition of sequential and asynchronous task in your workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for the same flow started  200,000 times:
 
-| Publisher(s) | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 consumer threads |
-| --- | --- | --- | --- | --- |
-| 1 thread | 110 ns | 365 ns | 825 ns | 1.5 mks |
-| 2 threads | 255 ns | 3.3 mks | 3.3 mks | 3.5 mks |
-| 3 threads | 485 ns | 3.8 mks | 4.6 mks | 5.4 mks |
-| 4 threads | 545 ns | 4.9 mks | 5.7 mks | 6.0 mks |
-| 8 threads | 2.6 mks | 12.2 mks | 13.1 mks | 13.8 mks |
-| 16 threads | 8.6 mks | 25.3 mks | 25.8 mks | 34.3 mks |
+| Publisher(s) | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking) #8 consumer threads |
+| --- | --- | --- | --- | --- | --- |
+| 1 thread | 0.16 | 0.5 | 0.3 | 1.5 | 7.5 |
+| 2 threads | 0.36| 3 | 3 | 4 | 10 |
+| 3 threads | 0.55| 4 | 5 | 5 | 11 |
+| 4 threads | 0.85| 5 | 6 | 6 | 12 |
+| 8 threads | 2.5 mks | 12 | 13 | 13 | 16 |
+| 16 threads | 9 mks | 25 | 25 | 38 | 28 |
 
 
 ## Exception handling
