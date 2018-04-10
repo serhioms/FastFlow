@@ -1,4 +1,4 @@
-package ca.rdmss.higherorder;
+package test.fastflow.higherorder;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
@@ -6,7 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 /*
- * Higher-order consumer applies to Consumer<T> interface which accept's only one parameter <T> - job context.
+ * Higher-order consumer is almost the same as higher-order runnable... 
+ * 
+ * (c) Hereby granted by Federico Peralta https://github.com/boundsofjava/boj-newsletter-001/blob/master/LICENSE
  */
 @FunctionalInterface
 public interface HigherOrderConsumer<T> {
@@ -18,7 +20,7 @@ public interface HigherOrderConsumer<T> {
 	Consumer<T> combine(Consumer<? super T>... consumers);
 
 	/*
-	 * Same blocking synchronization as high-order runnable...
+	 * Sequential execution of all consumers in same thread simply do not requires any synchronization!
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> HigherOrderConsumer<T> sequential() {
@@ -26,7 +28,7 @@ public interface HigherOrderConsumer<T> {
     }
 
 	/*
-	 * Same blocking synchronization as high-order runnable...
+	 * Parallel execution of all consumers require synchronization - thread blocking synchronization!
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> HigherOrderConsumer<T> parallel(ExecutorService executor) {
@@ -35,7 +37,7 @@ public interface HigherOrderConsumer<T> {
                 CountDownLatch latch = new CountDownLatch(consumers.length);
                 Arrays.stream(consumers).forEach(consumer -> executor.submit(() -> {
                     try {
-                    	((Consumer<T>)consumer).accept(context);
+                    	((Consumer<T>)consumer).accept(context); // provide context to consumer
                     } finally {
                         latch.countDown();
                     }

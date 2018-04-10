@@ -1,13 +1,15 @@
 package ca.rdmss.fastflow;
 
 /*
- * Any task managed by WFlow must implement this interface or use WAdapter instead.
+ * Represents fast flow task instance 
  */
 @FunctionalInterface
 public interface FwTask<T> extends FwFlow<T> {
 
 	/*
-	 * Task implementation method provide workflow context from given run  
+	 * The only applicable method for given task instance
+	 * 
+	 * @T context - flow context provided by flow start method  
 	 */
 	void job(T context);
 

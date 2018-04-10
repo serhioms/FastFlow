@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import ca.rdmss.fastflow.FwFlow;
 import ca.rdmss.fastflow.FwHighOrder;
-import ca.rdmss.higherorder.HigherOrderConsumer;
+import test.fastflow.higherorder.HigherOrderConsumer;
 
 abstract public class HundredBottleFlow {
 

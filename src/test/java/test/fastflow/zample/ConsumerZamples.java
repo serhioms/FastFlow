@@ -3,7 +3,7 @@ package test.fastflow.zample;
 import java.util.function.Consumer;
 
 import ca.rdmss.fastflow.FwAdapter;
-import ca.rdmss.higherorder.HigherOrderConsumer;
+import test.fastflow.higherorder.HigherOrderConsumer;
 import test.fastflow.zample.impl.TestContext;
 import test.fastflow.zample.impl.TestTask;
 

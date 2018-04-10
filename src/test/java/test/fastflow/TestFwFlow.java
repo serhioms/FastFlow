@@ -21,7 +21,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<1; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals("12345", TestBase.getConcat());
@@ -36,7 +36,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<1; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals("12345", TestBase.getConcat());
@@ -51,7 +51,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals("231114511167", TestBase.getConcat());
@@ -66,7 +66,7 @@ public class TestFwFlow extends TestBase {
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(34, TestBase.getSum());
@@ -81,7 +81,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(58, TestBase.getSum());
@@ -96,7 +96,7 @@ public class TestFwFlow extends TestBase {
 				
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(46, TestBase.getSum());
@@ -111,7 +111,7 @@ public class TestFwFlow extends TestBase {
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(34, TestBase.getSum());
@@ -126,7 +126,7 @@ public class TestFwFlow extends TestBase {
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(22, TestBase.getSum());
@@ -141,7 +141,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(22, TestBase.getSum());
@@ -156,7 +156,7 @@ public class TestFwFlow extends TestBase {
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(17, TestBase.getSum());
@@ -172,7 +172,7 @@ public class TestFwFlow extends TestBase {
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(5, TestBase.getSum());
@@ -187,7 +187,7 @@ public class TestFwFlow extends TestBase {
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
-			wkf.run(new TestContext(i));
+			wkf.start(new TestContext(i));
 			TestBase.done();
 			avgTimeMls += TestBase.getTimeMls();
 			assertEquals(15, TestBase.getSum());

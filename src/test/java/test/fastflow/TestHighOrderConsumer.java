@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.rdmss.higherorder.HigherOrderConsumer;
+import test.fastflow.higherorder.HigherOrderConsumer;
 import test.fastflow.zample.ConsumerZamples;
 import test.fastflow.zample.impl.TestContext;
 import test.impl.TestBase;

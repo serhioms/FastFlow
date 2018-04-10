@@ -5,9 +5,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*
- * High-order workflow manager applies to WTask<T> interface which accept's only one parameter <T> - job context.
+ * High-order flow interface. You can build your flow vie sequential parallel and asynchronous interfaces.
  *  
- * Actually you've to use sequential, parallel or asynchronous interfaces to build your own WFlow<T> instance. 
+ * (c) Hereby granted by Federico Peralta https://github.com/boundsofjava/boj-newsletter-001/blob/master/LICENSE
  */
 @FunctionalInterface
 public interface FwHighOrder<T> {
@@ -15,15 +15,14 @@ public interface FwHighOrder<T> {
 	static public final Package THIS_PACKAGE = FwHighOrder.class.getPackage();
 	
 	/*
-	 * Combines given WTask into single one.
+	 * Combines given WTask<?> into single one
 	 */
-	public FwFlow<T> combine(FwFlow<?>... consumers);
+	public FwFlow<T> combine(FwFlow<?>... tasks);
 
 	/*
-	 * No thread locking synchronization! 
+	 * Sequential interface implements full-blocked, automatic XPDL activities executed sequentially. 
 	 * 
-	 * Works the same way as XPDL FULL-BLOCKED activity defined. Each task executed in separate thread but still sequentially. 
-	 * Last one trigger next parent.
+	 * No thread blocking synchronization! 
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> FwHighOrder<T> sequential(ExecutorService executor) {
@@ -51,10 +50,9 @@ public interface FwHighOrder<T> {
     }
 
 	/*
-	 * No thread locking synchronization! 
+	 * Parallel interface implements full-blocked, automatic XPDL activities executed in parallel. 
 	 *
-	 * Works the same way as XPDL FULL-BLOCKED activity defined. All tasks performed in parallel threads.
-	 * The last one and the only trigger next parent.
+	 * No thread locking synchronization! 
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> FwHighOrder<T> parallel(ExecutorService executor) {
@@ -83,10 +81,10 @@ public interface FwHighOrder<T> {
     }
 
 	/*
+	 * Asynchronous interface implements non-blocked, automatic XPDL activities executed in parallel. 
+	 *
 	 * No synchronization at all! 
 	 *
-	 * Works the same way as XPDL NON-BLOCKED activity defined. All tasks performed in parallel threads.
-	 * Next parent triggered immediately after all children get started.
 	 */
 	@SuppressWarnings("unchecked")
 	static <T> FwHighOrder<T> asynchronous(ExecutorService executor) {

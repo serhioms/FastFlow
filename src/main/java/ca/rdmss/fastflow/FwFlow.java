@@ -1,17 +1,17 @@
 package ca.rdmss.fastflow;
 
 /*
- * WFlow interface wrap out whole workflow instance. 
+ *Represents fast flow instance 
  */
 @FunctionalInterface
 public interface FwFlow<T> {
 
 	/*
-	 * The only applicable method for given workflow instance
-	 *
-	 * @T context - workflow context provided to any workflow task  
+	 * The only applicable method for given flow instance
+	 * 
+	 * @T context - flow context provided to any flow task  
 	 */
-	default void run(T context) {
+	default void start(T context) {
 		doNotUseMeDirectlyPlease(context, 0, 0);
     }
 

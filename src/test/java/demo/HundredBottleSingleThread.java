@@ -13,7 +13,7 @@ public class HundredBottleSingleThread {
 				HundredBottleFlow.getInstance(ff.sequential, ff.parallel)
 			);
 		
-		hundredBottleFlow.run("=== the end === just "+ff.getThreadPoolSize()+" thread perfomed!");
+		hundredBottleFlow.start(null);
 		
 		ff.shutdown();
 		

@@ -6,18 +6,23 @@ import java.util.concurrent.TimeUnit;
 
 public class FastFlow<T> {
 
-	private static final long SHUTDOWN_TIMEOUT_MLS = 100L;
-
+	static public final long SHUTDOWN_TIMEOUT_MLS = 100L;
 	static public final int OPTIMAL_THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 
 	public final FwHighOrder<T> sequential;
 	public final FwHighOrder<T> parallel;
 	public final ThreadPoolExecutor executor;
-
+	
 	private long shutdownTimeoutMls = SHUTDOWN_TIMEOUT_MLS;
 	
 	public FastFlow() {
 		this(OPTIMAL_THREAD_POOL_SIZE);
+	} 
+
+	public FastFlow(ThreadPoolExecutor executor) {
+		this.executor = executor;
+		this.sequential = FwHighOrder.sequential(executor);
+		this.parallel = FwHighOrder.parallel(executor);
 	} 
 
 	public FastFlow(int nThreads) {

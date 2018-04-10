@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import ca.rdmss.higherorder.HigherOrderConsumer;
+import test.fastflow.higherorder.HigherOrderConsumer;
 
 public class HundredBottleMultyThreadBlocking {
 
@@ -30,7 +30,7 @@ public class HundredBottleMultyThreadBlocking {
 					if( !executor.getQueue().isEmpty() || executor.getActiveCount() > 0 ){
 						for(executor.shutdown(); !executor.awaitTermination(100L, TimeUnit.MILLISECONDS); ){
 							if( !executor.shutdownNow().isEmpty() ){
-								System.out.println("=== Thread blocking song of 100 bottles hangs with the pool of "+executor.getCorePoolSize()+" threads! ===");
+								System.out.println("=== hangs!!! ===");
 							}
 						}
 					}
@@ -47,7 +47,7 @@ public class HundredBottleMultyThreadBlocking {
 			}
 		}).start();
 		
-		hundredBottleFlow.accept("=== the end === just "+executor.getCorePoolSize()+" thread perfomed!");
+		hundredBottleFlow.accept(null);
 	}
 
 }

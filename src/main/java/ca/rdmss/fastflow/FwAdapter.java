@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import java.util.Arrays;
 
 /*
- * Convert Runnable, Consumer to WTask and back and force
+ * Convert Runnable, Consumer to WTask<> and back and force
  */
 public interface FwAdapter {
 
