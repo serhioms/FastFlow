@@ -161,10 +161,14 @@ Works exactly same way as parallel execution but without any thread synchronizat
 
 Actually composition of sequential and asynchronous task in your workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance:
 
-| Command | Description |
-| --- | --- |
-| `git status` | List all *new or modified* files |
-| `git diff` | Show file differences that **haven't been** staged |
+| Publishers | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 consumer threads
+| --- | --- | --- | --- |
+| 1 thread |  |  |  |
+| 2 threads |  |  |  |
+| 3 threads |  |  |  |
+| 4 threads |  |  |  |
+| 8 threads |  |  |  |
+| 16 threads |  |  |  |
 
 
 ## Exception handling
