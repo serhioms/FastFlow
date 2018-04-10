@@ -28,13 +28,6 @@ If you are single thread adherent or LMax Disruptor follower just set up thread 
 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/parallel.png)
 
-## Asynchronous execution
-Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - starts them all and forget. 
-
-Actually composition of sequential and asynchronous task in your workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance:
-
-<???>
-
 ## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloWorld.java)
 Here is most simple way to try fast flow:
 
@@ -162,6 +155,17 @@ Here is the log:
 	4) !
 	5) !
 	6) 
+
+## Asynchronous execution
+Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - starts them all and forget. 
+
+Actually composition of sequential and asynchronous task in your workflow running with thread pool size equals 2 almost equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance:
+
+| Command | Description |
+| --- | --- |
+| `git status` | List all *new or modified* files |
+| `git diff` | Show file differences that **haven't been** staged |
+
 
 ## Exception handling
 
