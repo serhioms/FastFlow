@@ -106,9 +106,9 @@ Here is another hello workflow:
 		/*
 		 * Flow context represents bunch of properties of running flow 
 		 */
-		static public class HelloContext {
+		***static public class HelloContext {
 			public AtomicInteger counter = new AtomicInteger(0); 
-		}
+		}***
 	
 		public String phrase; 
 		
