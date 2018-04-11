@@ -185,11 +185,6 @@ Exception Handler is generic class which fast flow call in case of any exception
 	    });
 
 ## Usage
-Since fast flow is not published to any maven repository you can [download latest jar](https://github.com/serhioms/DisruptorFlow/blob/master/distribution/fastflow-1.0.0.jar) and include it in your project or use source code as it is.
-
-
-### Test Suit
-
-<???>
+Since fast flow is not published to any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) and include it in your project or use source code as is.
 
 License is [MIT](https://github.com/serhioms/FastFlow/blob/master/LICENSE)
