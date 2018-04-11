@@ -168,6 +168,18 @@ Lets run [these flows](https://github.com/serhioms/FastFlow/blob/master/src/test
 
 Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Mean while thread blocking algo require 60 threads in the pool minimum otherwise it will hang.
 
+### What is maximum Fast Flow Perfomance ???
+
+Here it is:
+
+![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/FastFlowPerfomance.png)
+
+First of perfomance calculated as = Log10( 1/(duration)) where duration is time of execution [this workflow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java). Actual time is vary from 500 nanoseconds to 100 milliseconds per flow. Test is done on Intel(R) 8 core CPU i7-4770 @3.4 GHz. 
+
+So far the absolute perfomance winner is 1 thread in executor's thread pool per 1 flow publisher. Flow publisher executes the same workflow 40,000 times. If amount of publishers grow up then amount of executed workflows grow up then perfomance getting down obviously. But still highest one achived by 1 thread in the pool. That is why [LMax Desruptor]() absolute highest perfomance pattern! While increasing thread pool size up to 8 threads perfomance getting down to its minimum around 4-8 threads. If you continue increasing pool size then perfomance getting local maximum around 8-32 threads. Over 32 threads we can consider perfomance as a constant. 
+
+Why so? Why we still trying parallel programming? How to calculate optimal amount of threads in executor's pool for specific CPU and for certain amount of clients aka publishers? [Can answer here...](https://ca.linkedin.com/in/sergeymoskovskiy)
+
 ## Asynchronous execution
 Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - parent starts and forget all asynchronous tasks. 
 
