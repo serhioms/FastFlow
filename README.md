@@ -156,19 +156,23 @@ Here is the log:
 	5) !
 	6) 
 
-### [Compare Perfomance](): [FastFlow-no blocking]() vs [High Order with thread blocking]()
+### [Compare Perfomance](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/CompareFastFlowPerfomance.java): [FastFlow-no blocking](https://github.com/serhioms/FastFlow/blob/master/src/test/java/fastflow/TestFastFlowPerfomance.java) vs [High Order with thread blocking](https://github.com/serhioms/FastFlow/blob/master/src/test/java/higherorder/TestHighOrderPerfomance.java)
 
-| Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#64 threads |
+Lets run [these flows](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java) 2,000 times:
+
+| Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#60 threads |
 | --- | --- | --- |
-| 1 thread   |  16 mks | 500 mks |
-| 2 threads  |  17 mks | 4 mls |
-| 4 threads  |  15 mks | 22 mls |
-| 8 threads  |  30 mks | 140 mls |
+| 1 thread   |  4 mks | 500 mks |
+| 2 threads  | 10 mks |   4 mls |
+| 4 threads  | 20 mks |  22 mls |
+| 8 threads  | 30 mks | 140 mls |
+
+Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Mean while thread blocking algo require 60 threads in the pool minimum otherwise it will hang.
 
 ## Asynchronous execution
 Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - parent starts and forget all asynchronous tasks. 
 
-Actually composition of sequential and asynchronous tasks only running on just 2 threads equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
+Actually composition of sequential and asynchronous tasks only running on 2 threads equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
 
 | Publisher(s),<br/>mks | Disruptor<br/>#2 threads | FastFlow<br/>#1 thread | FastFlow<br/>#2 threads| FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#2 threads |
 | --- | --- | --- | --- | --- | --- |
