@@ -183,9 +183,9 @@ Why so? Why we still trying parallel programming? How to calculate optimal amoun
 ## Asynchronous execution
 Along with sequential and parallel task executors there is one more - ***asynchronous***. Works exactly same way as parallel but without any thread synchronization at all - parent task start and forget all asynchronous children. 
 
-Actually composition of sequential and asynchronous tasks only running on 2 threads equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
+Actually composition of sequential and asynchronous tasks running on 2 threads only equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
 
-| Publisher(s),<br/>mks | Disruptor<br/>#2 threads | FastFlow<br/>#1 thread | FastFlow<br/>#2 threads| FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#2 threads |
+| Publisher(s),<br/>mks | DisruptorFlow<br/>#2 threads | FastFlow<br/>#1 thread | FastFlow<br/>#2 threads| FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#2 threads |
 | --- | --- | --- | --- | --- | --- |
 | 1 thread   |  0.1 | 0.5 | 0.7 |  1 |  0.5 |
 | 2 threads  |  0.3 |  3  |  4  |  4 |  3   |
@@ -194,7 +194,7 @@ Actually composition of sequential and asynchronous tasks only running on 2 thre
 | 8 threads  |  3   | 14  | 14  | 15 | 11   |
 | 16 threads | 10   | 30  | 28  | 35 | 20   |
 
-So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. Even so High Order implementation slightly faster then Fast Flow!? That is why there is no any parallel task in High Order then there is no blocking synchronization at all! 
+So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) cause no parallel task in it! 
 
 ## Exception handling
 
