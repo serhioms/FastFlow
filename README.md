@@ -1,8 +1,6 @@
 # Fast Flow
 Simple, light and very fast workflow engine which perform sequential, parallel and asynchronous tasks in thread pool executor. Where workflow is bunch of tasks and forks.
 
-This is a regular Maven project.
-
 ## What is not implemented?
 There is no joins in fast flow but forks only. There is no conditional transitions but unconditional only. 
 
