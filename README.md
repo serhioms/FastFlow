@@ -161,16 +161,16 @@ Works exactly same way as parallel execution but without any thread synchronizat
 
 Actually composition of sequential and asynchronous tasks only running on just 2 threads equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
 
-| Publisher(s), mks | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking) #2 consumer threads |
+| Publisher(s), mks | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking)      #2 consumer threads |
 | --- | --- | --- | --- | --- | --- |
-| 1 thread   | 0.1 | 0.5 | 0.7 | 1  | 0.5 |
-| 2 threads  | 0.3 | 3   | 4   | 4  | 3 |
-| 3 threads  | 0.5 | 4   | 5   | 6  | 4 |
-| 4 threads  | 0.7 | 5   | 6   | 7  | 5 |
-| 8 threads  | 3   | 14  | 14  | 15 | 11 |
-| 16 threads | 10  | 30  | 28  | 35 | 20 |
+| 1 thread   |  0.1 | 0.5 | 0.7 |  1 |  0.5 |
+| 2 threads  |  0.3 |  3  |  4  |  4 |  3   |
+| 3 threads  |  0.5 |  4  |  5  |  6 |  4   |
+| 4 threads  |  0.7 |  5  |  6  |  7 |  5   |
+| 8 threads  |  3   | 14  | 14  | 15 | 11   |
+| 16 threads | 10   | 30  | 28  | 35 | 20   |
 
-So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. Even so High Order implementation slightly faster then Fast Flow!? That is why there is no any parallel task in High Order then there is no blocking synchronization at all. 
+So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. Even so High Order implementation slightly faster then Fast Flow!? That is why there is no any parallel task in High Order then there is no blocking synchronization at all! 
 
 ## Exception handling
 
