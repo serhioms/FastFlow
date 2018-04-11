@@ -156,6 +156,15 @@ Here is the log:
 	5) !
 	6) 
 
+## [Compare Perfomance](): [FastFlow-no blocking]() vs [High Order with thread blocking]()
+
+| Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#64 threads |
+| --- | --- | --- |
+| 1 thread   |  16 mks | 500 mks |
+| 2 threads  |  17 mks | 4 mls |
+| 4 threads  |  15 mks | 22 mls |
+| 8 threads  |  30 mks | 140 mls |
+
 ## Asynchronous execution
 Works exactly same way as parallel execution but without any thread synchronization between parent and children at all - parent starts and forget all asynchronous tasks. 
 
