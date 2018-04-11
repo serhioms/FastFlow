@@ -161,7 +161,7 @@ Works exactly same way as parallel execution but without any thread synchronizat
 
 Actually composition of sequential and asynchronous tasks only running on just 2 threads equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
 
-| Publisher(s), mks | Disruptor #2 | FastFlow #1 | FastFlow #2 | FastFlow #8 | HighOrder (blocking) <br/> #2 consumer threads |
+| Publisher(s),<br/>mks | Disruptor<br/>#2 threads | FastFlow<br/>#1 thread | FastFlow<br/>#2 threads| FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#2 threads |
 | --- | --- | --- | --- | --- | --- |
 | 1 thread   |  0.1 | 0.5 | 0.7 |  1 |  0.5 |
 | 2 threads  |  0.3 |  3  |  4  |  4 |  3   |
