@@ -106,12 +106,11 @@ Here is another hello workflow:
 		/*
 		 * Flow context represents bunch of properties of running flow 
 		 */
-		***static public class HelloContext {
+		static public class HelloContext {
 			public AtomicInteger counter = new AtomicInteger(0); 
-		}***
+		}
 	
 		public String phrase; 
-		
 		public HelloTask(String phrase) {
 			this.phrase = phrase;
 		}
@@ -162,10 +161,10 @@ Lets run [these flows](https://github.com/serhioms/FastFlow/blob/master/src/test
 
 | Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#60 threads |
 | --- | --- | --- |
-| 1 thread   |  4 mks | 500 mks |
-| 2 threads  | 10 mks |   4 mls |
-| 4 threads  | 20 mks |  22 mls |
-| 8 threads  | 30 mks | 140 mls |
+| 1 thread   |   3 mks |  40 mls |
+| 2 threads  |   8 mks |  80 mls |
+| 4 threads  |  12 mks | 140 mls |
+| 8 threads  | 100 mks | 100 mls |
 
 Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Mean while thread blocking algo require 60 threads in the pool minimum otherwise it will hang.
 
