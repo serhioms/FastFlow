@@ -156,7 +156,7 @@ Here is the log:
 	5) !
 	6) 
 
-## [Compare Perfomance](): [FastFlow-no blocking]() vs [High Order with thread blocking]()
+### [Compare Perfomance](): [FastFlow-no blocking]() vs [High Order with thread blocking]()
 
 | Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#64 threads |
 | --- | --- | --- |
