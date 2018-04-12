@@ -9,20 +9,6 @@ import fastflow.impl.TestTask;
 public class HighOrderZamples {
 
 	@SuppressWarnings("unchecked")
-	static public <T extends TestContext> Consumer<T> zampleDFlowLike(HigherOrderConsumer<T> sequential, HigherOrderConsumer<T> asynchronous) {
-		return sequential.combine(
-				TestTask.Job1::job,
-				sequential.combine(
-						TestTask.Job2::job,
-						asynchronous.combine(TestTask.Job3::job),
-						TestTask.Job4::job
-						),
-				TestTask.Job5::job,
-				TestTask.theEnd::job 
-		);
-	}
-
-	@SuppressWarnings("unchecked")
 	static public <T extends TestContext> Consumer<T> zampleConsumers(HigherOrderConsumer<T> sequential, HigherOrderConsumer<T> parallel) {
 		return sequential.combine(
 				FwAdapter.toConsumer(

@@ -6,19 +6,6 @@ import ca.rdmss.fastflow.FwHighOrder;
 
 public class TestFlows {
 
-	static public <T extends TestContext> FwFlow<T> zampleDFlowLike(FwHighOrder<T> sequential, FwHighOrder<T> asynchronous) {
-		return sequential.combine(
-				TestTask.Job1,
-				sequential.combine(
-						TestTask.Job2,
-						asynchronous.combine(TestTask.Job3),
-						TestTask.Job4
-						),
-				TestTask.Job5,
-				TestTask.theEnd 
-		);
-	}
-
 	static public <T extends TestContext> FwFlow<T> zampleRunnables(FwHighOrder<T> sequential, FwHighOrder<T> parallel) {
 		return sequential.combine(
 				FwAdapter.frRunnable(TestTask.Job1::run,

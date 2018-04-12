@@ -16,11 +16,11 @@ import ca.rdmss.multitest.annotation.MultiTest;
 import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
-import fastflow.impl.TestFlows;
-import test.ComparePerfomance;
+import perfomance.CompareDisruptorPerfomance;
+import perfomance.PerfomanceDFlows;
 
-@MultiTest(repeatNo=ComparePerfomance.MAX_TRY, threadSet=ComparePerfomance.THREAD_SET)
-public class TestFastFlowPerfomance2 {
+@MultiTest(repeatNo=CompareDisruptorPerfomance.MAX_TRY, threadSet=CompareDisruptorPerfomance.THREAD_SET)
+public class TestFFPerf2DFlowLike {
 
 	static FastFlow<TestContext> ff;
 	static FwFlow<TestContext> wkf;
@@ -28,7 +28,7 @@ public class TestFastFlowPerfomance2 {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 		ff = new FastFlow<TestContext>(2);
-		wkf = TestFlows.zampleDFlowLike(ff.sequential, ff.asynchronous);
+		wkf = PerfomanceDFlows.zampleFastFlow(ff.sequential, ff.asynchronous);
 	}
 
 	@AfterClass
@@ -49,13 +49,13 @@ public class TestFastFlowPerfomance2 {
 
 	@MultiThread
 	public void thread() throws InterruptedException {
-		wkf.start(new TestContext(actual.incrementAndGet(), ComparePerfomance.PERFOMANCE));
+		wkf.start(new TestContext(actual.incrementAndGet(), CompareDisruptorPerfomance.PERFOMANCE));
 	}
 	
 	@MultiEndOfSet
 	public void endOfSet() throws InterruptedException {
 		ff.waitForRunning();
-		expected.addAndGet(ComparePerfomance.MAX_TRY*rule.getThreadNo());
+		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo());
 	}
 
 	@Test

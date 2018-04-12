@@ -18,10 +18,12 @@ import ca.rdmss.multitest.annotation.MultiTest;
 import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
-import test.ComparePerfomance;
+import perfomance.CompareDisruptorPerfomance;
+import perfomance.CompareFastFlowPerfomance;
+import perfomance.PerfomanceFFlows;
 
-@MultiTest(repeatNo=ComparePerfomance.MAX_TRY, threadSet=ComparePerfomance.THREAD_SET)
-public class TestHighOrderPerfomance2 {
+@MultiTest(repeatNo=CompareFastFlowPerfomance.MAX_TRY, threadSet=CompareFastFlowPerfomance.THREAD_SET)
+public class TestHighOrderPerfomance {
 
 	static ThreadPoolExecutor executor;
 	static Consumer<TestContext> wkf;
@@ -29,12 +31,12 @@ public class TestHighOrderPerfomance2 {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 
-		executor = (ThreadPoolExecutor )Executors.newFixedThreadPool(2);
+		executor = (ThreadPoolExecutor )Executors.newFixedThreadPool(60);
 		
 		HigherOrderConsumer<TestContext> sequential = HigherOrderConsumer.sequential();
-		HigherOrderConsumer<TestContext> asynchronous = HigherOrderConsumer.asynchronous(executor);
+		HigherOrderConsumer<TestContext> parallel = HigherOrderConsumer.parallel(executor);
 		
-		wkf = HighOrderZamples.zampleDFlowLike(sequential, asynchronous);
+		wkf = PerfomanceFFlows.complexFlow(sequential, parallel);
 	}
 
 	@AfterClass
@@ -55,7 +57,7 @@ public class TestHighOrderPerfomance2 {
 
 	@MultiThread
 	public void thread() throws InterruptedException {
-		wkf.accept(new TestContext(actual.incrementAndGet(), ComparePerfomance.PERFOMANCE));
+		wkf.accept(new TestContext(actual.incrementAndGet(), CompareDisruptorPerfomance.PERFOMANCE));
 	}
 	
 	@MultiEndOfSet
@@ -63,7 +65,7 @@ public class TestHighOrderPerfomance2 {
 		while(!executor.getQueue().isEmpty() || executor.getActiveCount() > 0) {
 			TimeUnit.NANOSECONDS.sleep(1);
 		}
-		expected.addAndGet(ComparePerfomance.MAX_TRY*rule.getThreadNo());
+		expected.addAndGet(CompareFastFlowPerfomance.MAX_TRY*rule.getThreadNo());
 	}
 
 	@Test
