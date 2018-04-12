@@ -5,7 +5,7 @@ Simple, light and very fast workflow engine which perform sequential, parallel a
 There is no joins in fast flow but forks only. There is no conditional transitions but unconditional only. 
 
 ## What is special?
-It is multi-threaded and very fast! Almost same fast as [LMax Disruptor](https://martinfowler.com/articles/lmax.html) because of non blocking thread synchronization. Actually internal aka [Runnable](https://github.com/boundsofjava/boj-newsletter-001/blob/master/src/main/java/com/boundsofjava/newsletter/higherorderrunnable/HigherOrderRunnable.java) engine of Fast Flow project was inspired by great article of Federico Peralta ["The bounds of java"](http://boundsofjava.com/newsletter/001-higher-order-runnables).
+It is multi-threaded and very fast! Almost same fast as [LMax Disruptor](https://martinfowler.com/articles/lmax.html) because of non blocking thread synchronization. Actually internal aka [Runnable](https://github.com/boundsofjava/boj-newsletter-001/blob/master/src/main/java/com/boundsofjava/newsletter/higherorderrunnable/HigherOrderRunnable.java) [engine of Fast Flow project](https://github.com/serhioms/FastFlow/blob/master/src/main/java/ca/rdmss/fastflow/FwHighOrder.java) was inspired by great article of Federico Peralta ["The bounds of java"](http://boundsofjava.com/newsletter/001-higher-order-runnables).
 
 Since [LMax Disruptor](https://github.com/LMAX-Exchange/disruptor) get announced by [LMax](https://www.lmax.com/) multi-threaded programming become a downtrend way of doing high performance programming. Lets get it back! We are leaving in the world of multi-core CPU! By the way nothing can stop you from using thread pool executor with one thread only...
 
@@ -192,6 +192,6 @@ Actually composition of sequential and asynchronous tasks running on 2 threads o
 So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) because no parallel task in it! 
 
 ## Usage
-Since fast flow is not published in any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) and include it in your project or use source code as is.
+Since fast flow is not published in any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) or use source code as is.
 
 License is [MIT](https://github.com/serhioms/FastFlow/blob/master/LICENSE)
