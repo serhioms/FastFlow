@@ -20,9 +20,9 @@ Sequential execution starts by executing the first task and continue by executin
 ## Parallel execution
 For given number of parallel tasks we need same amount of threads to run them all in parallel aka simultaneously or concurrently. Depends mostly on how many CPU cores are in place. Summarize all that pros and cons fast flow sets size of thread pool exactly same as number of CPU cores. Then place all parallel tasks into executor's queue. As soon as last task ends fast flow executes next one from the parent flow without blocking parent thread at all!
 
-If you are single thread adherent or LMax Disruptor follower just set up thread pool having one thread only. Fast flow guarantees all work be done regardless complexity of task composition in your flow.
-
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/parallel.png)
+
+If you are single thread adherent or LMax Disruptor follower just set up thread pool having one thread only. Fast flow guarantees all work be done regardless complexity of task composition in your flow.
 
 ## [Hello World demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HelloWorld.java)
 Here is most simple way to try fast flow:
@@ -50,7 +50,7 @@ The log is:
 
 Bit verbose lambda (a,b,c,d)->{} is the price for non-blocking synchronization implemented in fast flow. None of args are really matter except first one A - it is the context object provided in hello.start(null) method i.e. null.
 
-The hello workflow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level flow tree. Next example of slightly modified famous [99 Bottle song](https://en.wikipedia.org/wiki/99_Bottles_of_Beer) much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) flow tree.
+Hello flow combines 4 sequential tasks and 2 parallel tasks which can be represented by 2 level flow tree. Next example of slightly modified famous [99 Bottle song](https://en.wikipedia.org/wiki/99_Bottles_of_Beer) much more complicated and finally can be represented by [100 level tree of sequential->parrallel->sequential->parallel->*** ](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java) flow tree.
 
 ## [100 Bottle demo](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleFlow.java)
 There are 3 implementations of this demo: vie [blocking synchronization with 99 available threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThreadBlocking.java), vie [non-blocking synchronization with couple threads](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleMultyThread.java) and vie [non-blocking synchronization with 1 thread only](https://github.com/serhioms/FastFlow/blob/master/src/test/java/demo/HundredBottleSingleThread.java).
@@ -97,7 +97,7 @@ Here is 1-thread fast flow log:
 
 ## [Flow context](https://github.com/serhioms/FastFlow/blob/master/src/test/java/fastflow/impl/TestContext.java)
 Flow context is any java object provided in flow run method which propagates among all tasks. 
-Here is another hello workflow:
+Here is another hello flow with HelloContext:
 
 	public class HelloTask implements FwTask<HelloContext> {
 	
@@ -164,15 +164,12 @@ Lets run [these flows](https://github.com/serhioms/FastFlow/blob/master/src/test
 | 4 threads  |  12 mks | 140 mls |
 | 8 threads  | 100 mks | 100 mls |
 
-Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Mean while thread blocking algo require 60 threads in the pool minimum otherwise it will hang.
+Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Meanwhile thread blocking algo require 60 threads in the pool minimum otherwise it will hang with 8 publishers!
 
-### What is maximum Fast Flow Perfomance ???
-
-Here it is:
-
-![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/FastFlowPerfomance.png)
+### Fast Flow Perfomance
 
 First of all perfomance calculated as = Log10( 1/duration ) where duration is the time of execution [this workflow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java). Actual time is vary from 500 nanoseconds to 100 milliseconds per flow by the way. Test is done on Intel(R) 8 core CPU i7-4770 @3.4 GHz. 
+![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/FastFlowPerfomance.png)
 
 So far the absolute perfomance winner is 1 thread in executor's thread pool per 1 flow publisher. Flow publisher executes the same workflow 40,000 times. If amount of publishers grow up then amount of executed workflows grow up then perfomance getting down obviously. But still highest one achived by 1 thread in the pool. That is why [LMax Desruptor](https://meterpreter.org/lmax-disruptor-3-3-7-release-high-performance-inter-thread-messaging-library/) absolute highest perfomance pattern! While increasing thread pool size up to 8 threads perfomance getting down to its minimum around 4-8 threads. If you continue increasing pool size then perfomance getting local maximum around 8-32 threads. Over 32 threads we can consider perfomance as a constant. 
 
@@ -181,7 +178,7 @@ Why so? Why we still trying parallel programming? How to calculate optimal amoun
 ## Asynchronous execution
 Along with sequential and parallel task executors there is one more - ***asynchronous***. Works exactly same way as parallel but without any thread synchronization at all - parent task start and forget all asynchronous children. 
 
-Actually composition of sequential and asynchronous tasks running on 2 threads only equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) running 200,000 times:
+Actually composition of sequential and asynchronous tasks running on 2 threads only equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) running 200,000 times:
 
 | Publisher(s),<br/>mks | DisruptorFlow<br/>#2 threads | FastFlow<br/>#1 thread | FastFlow<br/>#2 threads| FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#2 threads |
 | --- | --- | --- | --- | --- | --- |
@@ -192,21 +189,9 @@ Actually composition of sequential and asynchronous tasks running on 2 threads o
 | 8 threads  |  3   | 14  | 14  | 15 | 11   |
 | 16 threads | 10   | 30  | 28  | 35 | 20   |
 
-So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFlows.java) cause no parallel task in it! 
-
-## Exception handling
-
-Exception Handler is generic class which fast flow call in case of any exception during the run. Default handler just print stack trace into System.err:
-
-	    fastflow.setExceptionHandler(new ExceptionHandler<TestContext>(){
-	        @Override
-	        public TaskTransition handleTaskException((task, ex)->{
-	            System.err.printf("Task %s get failed %s\n", task, ex.getMessage());
-	            return TaskTransition.ContinueExecution;
-	        }
-	    });
+So far flow based on LMax Disruptor 3-5 times faster then Fast Flow or High Order implementation. More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) because no parallel task in it! 
 
 ## Usage
-Since fast flow is not published to any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) and include it in your project or use source code as is.
+Since fast flow is not published in any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) and include it in your project or use source code as is.
 
 License is [MIT](https://github.com/serhioms/FastFlow/blob/master/LICENSE)
