@@ -155,20 +155,20 @@ Here is the log:
 
 ### [Compare Perfomance](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/CompareFastFlowPerfomance.java): [FastFlow-no blocking](https://github.com/serhioms/FastFlow/blob/master/src/test/java/fastflow/TestFastFlowPerfomance.java) vs [High Order with thread blocking](https://github.com/serhioms/FastFlow/blob/master/src/test/java/higherorder/TestHighOrderPerfomance.java)
 
-Lets run [these flows](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java) ***2,000*** times and determine duration per 1 flow execution:
+Lets run [this complex flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java) ***2,000*** times and determine execution duration per 1 flow:
 
-| Publisher(s) | FastFlow<br/>#8 threads | HighOrder (blocking)<br/>#60 threads |
-| --- | --- | --- |
-| 1 thread   |   3 mks |  40 mls |
-| 2 threads  |   8 mks |  80 mls |
-| 4 threads  |  12 mks | 140 mls |
-| 8 threads  | 100 mks | 100 mls |
+| Publisher(s) | HighOrder (blocking)<br/>#60 threads |  FastFlow<br/>#8 threads |  FastFlow+RingBuffer<br/>#8 threads |
+| --- | --- | --- | --- |
+| 1 thread  | 35 mls |   4 mks | 0.5 mks |
+| 2 threads | 79 mls |   9 mks | 1.5 mks |
+| 4 threads |133 mls |  16 mks | 6.0 mks |
+| 8 threads |100 mls |  79 mks |35.5 mks |
 
-Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Meanwhile thread blocking algo require 60 threads in the pool minimum otherwise it will hang with 8 publishers.
+Is not it that fast! Fast flow without thread blocking 1000'th time faster then thread blocking algo. Modified FastFlow with LMax Ring Buffer in thread pool even more faster! Meanwhile thread blocking algo require 60 threads in the pool minimum otherwise it will hang with 8 publishers.
 
 ### Fast Flow Perfomance
 
-Perfomance calculated as = Log10( 1/duration ) where duration is the time of execution [one flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java). Actual time is vary from ***0.5 mks*** to ***100 mls*** per flow by the way. Test is done on Intel(R) 8 core CPU i7-4770 @3.4 GHz. 
+Perfomance calculated as = Log10( 1/duration ) where duration is the time of execution [one complex flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceFFlows.java). Actual time is vary from ***0.5 mks*** to ***100 mls*** per flow by the way. Test is done on Intel(R) 8 core CPU i7-4770 @3.4 GHz. 
 ![alt text](https://github.com/serhioms/FastFlow/blob/master/diagram/FastFlowPerfomance.png)
 
 So far the absolute perfomance winner is 1 thread in executor's thread pool per 1 flow publisher. Flow publisher executes the same workflow ***40,000*** times. If amount of publishers grow up then amount of executed workflows grow up then perfomance getting down obviously. But still highest one achived by 1 thread in the pool. That is why [LMax Desruptor](https://meterpreter.org/lmax-disruptor-3-3-7-release-high-performance-inter-thread-messaging-library/) absolute highest perfomance pattern! While increasing thread pool size up to 8 threads perfomance getting down to its minimum around 4-8 threads. If you continue increasing pool size then perfomance getting local maximum around 8-32 threads. Over 32 threads we can consider perfomance as a constant. 
@@ -180,16 +180,16 @@ Along with sequential and parallel task executors there is one more - ***asynchr
 
 Actually composition of sequential and asynchronous tasks running on 2 threads only equivalent to [Disruptor Flow](https://github.com/serhioms/DisruptorFlow) engine from my github. Lets compare their performance for [the same flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) running ***1,000,000*** times:
 
-| Publisher(s),<br/>mks | DisruptorFlow<br/>#2 threads | HighOrder (blocking)<br/>#2 threads | FastFlow<br/>#8 threads| FastFlow +RingBuffer<br/>#8 threads |
+| Publisher(s),<br/>mks | DisruptorFlow<br/>#2 threads | HighOrder (blocking)<br/>#2 threads | FastFlow<br/>#8 threads| FastFlow+RingBuffer<br/>#8 threads |
 | --- | --- | --- | --- | --- |
-| 1 thread   | 0.08| 0.25| 1.3 |0.33 |
+| 1 thread   | 0.08| 0.25| 1.3 | 0.33|
 | 2 threads  | 0.3 | 3.8 | 3.8 | 1.8 |
 | 3 threads  | 0.5 | 4.2 | 6.7 | 3.5 |
 | 4 threads  | 0.7 | 5.0 | 9.9 | 3.1 |
 | 8 threads  | 3.3 |11.8 |25.5 | 9.5 |
 | 16 threads | 9.7 |21.1 |70.0 |14.4 |
 
-So far flow based on LMax Disruptor 3-5 times faster then anything else! More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) because no parallel task in it. That is why HifhOrder faster then regular FastFlow. But the last implementation of FastFlow based on LMax Disruptor Ring Buffer for the thread pool executor increase perfomance of FastFlow and put it on the second place after disruptor.
+So far flow based on LMax Disruptor 3-5 times faster then anything else! More over High Order implementation slightly faster then Fast Flow!? Why so? There is a reason behind - there is no any blocking synchronization in [this flow](https://github.com/serhioms/FastFlow/blob/master/src/test/java/perfomance/PerfomanceDFlows.java) because no parallel task in it. That is why HifhOrder faster then regular FastFlow. Modified Fastflow with LMax Ring Buffer in thread pool increase perfomance and put it on the second place after disruptor.
 
 ## Usage
 Since fast flow is not published in any maven repository you can [download latest jar](https://github.com/serhioms/FastFlow/tree/master/distribution/fast-flow-8.0.1.jar) or use source code as is.
