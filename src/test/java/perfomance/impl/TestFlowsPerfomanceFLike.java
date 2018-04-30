@@ -1,4 +1,4 @@
-package perfomance;
+package perfomance.impl;
 
 import java.util.function.Consumer;
 
@@ -6,10 +6,12 @@ import ca.rdmss.fastflow.FwFlow;
 import ca.rdmss.fastflow.FwHighOrder;
 import fastflow.impl.TestContext;
 import fastflow.impl.TestTask;
-import higherorder.HigherOrderConsumer;
+import higherorder.impl.HigherOrderConsumer;
 
-public class PerfomanceFFlows {
+public class TestFlowsPerfomanceFLike {
 
+	static public int NUMBER_OF_TASK_IN_FLOW = 30;
+	
 	static public <T extends TestContext> FwFlow<T> complexFlow(FwHighOrder<T> sequential, FwHighOrder<T> parallel) {
 		return sequential.combine(
 					TestTask.Job1,

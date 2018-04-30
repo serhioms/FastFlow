@@ -4,19 +4,22 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.function.Consumer;
 
+import higherorder.impl.HigherOrderConsumer;
+import higherorder.impl.TestFlowsHighOrder;
+import fastflow.impl.TestContext;
+
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import fastflow.impl.TestContext;
-import test.TestBase;
+import test.impl.TestBase;
 
 public class TestHighOrderConsumer extends TestBase {
 
 	@Test
 	public void testConsumerZample32() throws InterruptedException {
 		
-		Consumer<TestContext> wkf = HighOrderZamples.zample32(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample32(sequential, parallel);
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -31,7 +34,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample62() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample62(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample62(sequential, parallel);
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -46,9 +49,9 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample8() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample8(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample8(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -61,7 +64,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample7() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample7(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample7(sequential, parallel);
 				
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -76,7 +79,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample6() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample6(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample6(sequential, parallel);
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -91,7 +94,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample5() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample5(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample5(sequential, parallel);
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -106,7 +109,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample4() throws InterruptedException {
 		
-		Consumer<TestContext> wkf = HighOrderZamples.zample4(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample4(sequential, parallel);
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -121,7 +124,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample3() throws InterruptedException {
 		
-		Consumer<TestContext> wkf = HighOrderZamples.zample3(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample3(sequential, parallel);
 
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -136,7 +139,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample2() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample2(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample2(sequential, parallel);
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -151,7 +154,7 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample1() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zample1(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zample1(sequential, parallel);
 		
 		for(int i=0; i<MAX_ITERATION; i++) {
 			TestBase.init();
@@ -166,9 +169,9 @@ public class TestHighOrderConsumer extends TestBase {
 	@Test
 	public void testConsumerZample() throws InterruptedException {
 
-		Consumer<TestContext> wkf = HighOrderZamples.zampleConsumers(sequential, parallel);
+		Consumer<TestContext> wkf = TestFlowsHighOrder.zampleConsumers(sequential, parallel);
 		
-		for(int i=0; i<1; i++) {
+		for(int i=1; i<=1; i++) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();

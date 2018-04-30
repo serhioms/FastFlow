@@ -2,37 +2,48 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>ca.rdmss.fastflow</groupId>
-	<artifactId>fastflow</artifactId>
+	<groupId>ca.rdmss</groupId>
+	<artifactId>fast-flow</artifactId>
 	<packaging>jar</packaging>
 	<version>8.0.1</version>
 	
-	<name>Fast workFlow engine</name>
-	<url>http://maven.apache.org</url>
+	<name>Fast Flow Engine</name>
+	<description>Almost same fast as LMaxDisruptor but multi-threaded</description>
+	<url>https://github.com/serhioms/FastFlow</url>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>		
+		<!-- https://github.com/serhioms/MultiTest -->
 		<dependency>
 			<groupId>ca.rdmss</groupId>
 			<artifactId>multi-test</artifactId>
 			<version>1.3.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://github.com/serhioms/MultiTest -->
 		<dependency>
+			<groupId>ca.rdmss</groupId>
+			<artifactId>fast-threadpool</artifactId>
+			<version>7.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://github.com/serhioms/DisruptorFlow -->
+ 		<dependency>
 			<groupId>ca.rdmss</groupId>
 			<artifactId>disruptor-flow</artifactId>
 			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>		
+	 </dependencies>
 	
 	<build>
-		<finalName>fastflow</finalName>
+		<finalName>fast-flow</finalName>
 		<plugins>
 			<!-- any other plugins -->
 			<plugin>

@@ -10,7 +10,7 @@ import ca.rdmss.fastflow.FwFlow;
 import ca.rdmss.fastflow.FwHighOrder;
 import fastflow.impl.TestContext;
 import fastflow.impl.TestFlows;
-import test.TestBase;
+import test.impl.TestBase;
 
 public class TestFastFlowN extends TestBase {
 	
@@ -19,7 +19,7 @@ public class TestFastFlowN extends TestBase {
 		
 		FwFlow<TestContext> wkf = TestFlows.zampleRunnables(sequential, parallel);
 
-		for(int i=0; i<1; i++) {
+		for(int i=1; i<=1; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -34,7 +34,7 @@ public class TestFastFlowN extends TestBase {
 		
 		FwFlow<TestContext> wkf = TestFlows.zampleConsumers(sequential, parallel);
 
-		for(int i=0; i<1; i++) {
+		for(int i=1; i<=1; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -49,7 +49,7 @@ public class TestFastFlowN extends TestBase {
 		
 		FwFlow<TestContext> wkf = TestFlows.zample32(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -64,7 +64,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample62(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -79,7 +79,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample8(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -94,7 +94,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample7(sequential, parallel);
 				
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -109,7 +109,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample6(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -124,7 +124,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample5(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -139,7 +139,7 @@ public class TestFastFlowN extends TestBase {
 		
 		FwFlow<TestContext> wkf = TestFlows.zample4(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -154,7 +154,7 @@ public class TestFastFlowN extends TestBase {
 		
 		FwFlow<TestContext> wkf = TestFlows.zample3(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -170,7 +170,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample2(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();
@@ -185,7 +185,7 @@ public class TestFastFlowN extends TestBase {
 
 		FwFlow<TestContext> wkf = TestFlows.zample1(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; i++) {
 			TestBase.init();
 			wkf.start(new TestContext(i));
 			TestBase.done();

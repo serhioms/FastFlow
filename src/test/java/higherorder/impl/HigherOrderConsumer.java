@@ -1,4 +1,4 @@
-package higherorder;
+package higherorder.impl;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;

@@ -1,4 +1,4 @@
-package perfomance;
+package perfomance.impl;
 
 import java.util.function.Consumer;
 
@@ -11,10 +11,12 @@ import dflow.impl.AsyncTask;
 import dflow.impl.SyncTask;
 import fastflow.impl.TestContext;
 import fastflow.impl.TestTask;
-import higherorder.HigherOrderConsumer;
+import higherorder.impl.HigherOrderConsumer;
 
-public class PerfomanceDFlows {
+public class TestFlowsPerfomanceDLike {
 
+	static public int NUMBER_OF_TASK_IN_FLOW = 6; 
+			
 	public static Task<TestContext>[] zampleDFlow(DisruptorFlow<TestContext> dflow) {
 		return dflow.createFlow(
 				new SyncTask(1),

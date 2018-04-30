@@ -3,7 +3,7 @@ package dflow.impl;
 import ca.rdmss.dflow.TaskSync;
 import ca.rdmss.dflow.TaskTransition;
 import fastflow.impl.TestContext;
-import test.TestBase;
+import test.impl.TestBase;
 
 public class SyncTask extends TaskSync<TestContext> {
 
@@ -15,7 +15,8 @@ public class SyncTask extends TaskSync<TestContext> {
 
 	@Override
 	public TaskTransition execute(TestContext context) throws Throwable {
-		if( !context.isPerfomance ) {
+		context.actual.incrementAndGet();
+		if( context.ident > 0 ) {
 			TestBase.work(context==null?-1:Integer.parseInt(context.toString()), this.ident, this+"\n");
 		}
 		return TaskTransition.Next;

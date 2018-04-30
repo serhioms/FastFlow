@@ -3,7 +3,7 @@ package fastflow;
 import org.junit.BeforeClass;
 
 import ca.rdmss.fastflow.FwHighOrder;
-import test.TestBase;
+import test.impl.TestBase;
 
 public class TestFastFlow1 extends TestFastFlowN {
 	

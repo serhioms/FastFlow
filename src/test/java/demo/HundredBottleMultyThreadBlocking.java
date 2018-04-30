@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import higherorder.HigherOrderConsumer;
+import higherorder.impl.HigherOrderConsumer;
 
 public class HundredBottleMultyThreadBlocking {
 

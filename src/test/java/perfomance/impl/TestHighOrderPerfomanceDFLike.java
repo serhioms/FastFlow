@@ -1,4 +1,4 @@
-package higherorder;
+package perfomance.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,12 +18,11 @@ import ca.rdmss.multitest.annotation.MultiTest;
 import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
+import higherorder.impl.HigherOrderConsumer;
 import perfomance.CompareDisruptorPerfomance;
-import perfomance.CompareFastFlowPerfomance;
-import perfomance.PerfomanceFFlows;
 
-@MultiTest(repeatNo=CompareFastFlowPerfomance.MAX_TRY, threadSet=CompareFastFlowPerfomance.THREAD_SET)
-public class TestHighOrderPerfomance {
+@MultiTest(repeatNo=CompareDisruptorPerfomance.MAX_TRY, threadSet=CompareDisruptorPerfomance.PUBLISHER_THREADS)
+public class TestHighOrderPerfomanceDFLike {
 
 	static ThreadPoolExecutor executor;
 	static Consumer<TestContext> wkf;
@@ -31,16 +30,19 @@ public class TestHighOrderPerfomance {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 
-		executor = (ThreadPoolExecutor )Executors.newFixedThreadPool(60);
+		executor = (ThreadPoolExecutor )Executors.newFixedThreadPool(2);
 		
 		HigherOrderConsumer<TestContext> sequential = HigherOrderConsumer.sequential();
-		HigherOrderConsumer<TestContext> parallel = HigherOrderConsumer.parallel(executor);
+		HigherOrderConsumer<TestContext> asynchronous = HigherOrderConsumer.asynchronous(executor);
 		
-		wkf = PerfomanceFFlows.complexFlow(sequential, parallel);
+		wkf = TestFlowsPerfomanceDLike.zampleHoFlow(sequential, asynchronous);
 	}
 
 	@AfterClass
 	public static void runAfterClass() throws Exception {
+		do {
+			TimeUnit.MILLISECONDS.sleep(1000L);
+		} while(!executor.getQueue().isEmpty() || executor.getActiveCount() > 0);
 		executor.shutdown();
 		
 		System.out.println("Scheduled "+executor.getTaskCount()+" tasks");
@@ -49,29 +51,29 @@ public class TestHighOrderPerfomance {
 		System.out.println("Max pool size "+executor.getMaximumPoolSize());
 	}
 
-	AtomicInteger actual = new AtomicInteger(0); 
 	AtomicInteger expected = new AtomicInteger(0);
+	TestContext context = new TestContext();
 	
 	@Rule
 	public MultiTestRule rule = new MultiTestRule(this);
 
 	@MultiThread
 	public void thread() throws InterruptedException {
-		wkf.accept(new TestContext(actual.incrementAndGet(), CompareDisruptorPerfomance.PERFOMANCE));
+		wkf.accept(context);
 	}
 	
 	@MultiEndOfSet
 	public void endOfSet() throws InterruptedException {
-		while(!executor.getQueue().isEmpty() || executor.getActiveCount() > 0) {
-			TimeUnit.NANOSECONDS.sleep(1);
-		}
-		expected.addAndGet(CompareFastFlowPerfomance.MAX_TRY*rule.getThreadNo());
+		do {
+			TimeUnit.MILLISECONDS.sleep(10);
+		} while(!executor.getQueue().isEmpty() || executor.getActiveCount() > 0);
+		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo()*TestFlowsPerfomanceDLike.NUMBER_OF_TASK_IN_FLOW);
 	}
 
 	@Test
 	public void test() throws Throwable {
 		System.out.printf("%s\n", rule.getReport());
-		System.out.printf("Expected counter %d vs %d actual\n", expected.get(), actual.get());
-		assertEquals("Check log", expected.get(), actual.get());
+		System.out.printf("Expected counter %d vs %d actual\n", expected.get(), context.actual.get());
+		assertEquals("Check log", expected.get(), context.actual.get());
 	}
 }

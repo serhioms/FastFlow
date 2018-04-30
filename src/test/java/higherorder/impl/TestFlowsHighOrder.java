@@ -1,4 +1,4 @@
-package higherorder;
+package higherorder.impl;
 
 import java.util.function.Consumer;
 
@@ -6,7 +6,7 @@ import ca.rdmss.fastflow.FwAdapter;
 import fastflow.impl.TestContext;
 import fastflow.impl.TestTask;
 
-public class HighOrderZamples {
+public class TestFlowsHighOrder {
 
 	@SuppressWarnings("unchecked")
 	static public <T extends TestContext> Consumer<T> zampleConsumers(HigherOrderConsumer<T> sequential, HigherOrderConsumer<T> parallel) {

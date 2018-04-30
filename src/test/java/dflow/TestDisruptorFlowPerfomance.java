@@ -18,10 +18,10 @@ import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
 import perfomance.CompareDisruptorPerfomance;
-import perfomance.PerfomanceDFlows;
+import perfomance.impl.TestFlowsPerfomanceDLike;
 
-@MultiTest(repeatNo=CompareDisruptorPerfomance.MAX_TRY, threadSet=CompareDisruptorPerfomance.THREAD_SET)
-public class TestDFlowPerf {
+@MultiTest(repeatNo=CompareDisruptorPerfomance.MAX_TRY, threadSet=CompareDisruptorPerfomance.PUBLISHER_THREADS)
+public class TestDisruptorFlowPerfomance {
 
 	static DisruptorFlow<TestContext> dflow = null;
 	static Task<TestContext>[] wkf = null;
@@ -29,7 +29,7 @@ public class TestDFlowPerf {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 		dflow = new DisruptorFlow<TestContext>();
-		wkf = PerfomanceDFlows.zampleDFlow(dflow);
+		wkf = TestFlowsPerfomanceDLike.zampleDFlow(dflow);
 	}
 
 	@AfterClass
@@ -37,8 +37,8 @@ public class TestDFlowPerf {
 		dflow = null;
 	}
 	
-	AtomicInteger actual = new AtomicInteger(0); 
 	AtomicInteger expected = new AtomicInteger(0);
+	TestContext context = new TestContext();
 	
 	@Rule
 	public MultiTestRule rule = new MultiTestRule(this);
@@ -48,9 +48,10 @@ public class TestDFlowPerf {
 		dflow.start();
 	}
 	
+	
 	@MultiThread
 	public void producer(){
-		dflow.process(new TestContext(actual.incrementAndGet(), CompareDisruptorPerfomance.PERFOMANCE), wkf);
+		dflow.process(context, wkf);
 	}
 
 	@MultiEndOfSet
@@ -58,7 +59,7 @@ public class TestDFlowPerf {
 		dflow.stop();
 		
 		// N producers -> 1 consumer
-		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo()*1);
+		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo()*1*TestFlowsPerfomanceDLike.NUMBER_OF_TASK_IN_FLOW);
 		
 		dflow.start();
 	}
@@ -69,7 +70,7 @@ public class TestDFlowPerf {
 		dflow.stop();
 
 		System.out.printf("%s\n", rule.getReport());
-		System.out.printf("Expected counter %d vs %d actual\n", expected.get(), actual.get());
-		assertEquals("Check log", expected.get(), actual.get());
+		System.out.printf("Expected counter %d vs %d actual\n", expected.get(), context.actual.get());
+		assertEquals("Check log", expected.get(), context.actual.get());
 	}
 }

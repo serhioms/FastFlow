@@ -3,7 +3,7 @@ package fastflow.impl;
 import java.util.function.Consumer;
 
 import ca.rdmss.fastflow.FwTask;
-import test.TestBase;
+import test.impl.TestBase;
 
 public enum TestTask implements Runnable, Consumer<TestContext>, FwTask<TestContext> {
 	Job0(0), Job1(1), Job2(2), Job3(3), Job4(4), Job5(5), Job6(6), Job7(7), Job8(8), Job9(9), Job10(10), Job11(11), Job12(12), 
@@ -26,13 +26,15 @@ public enum TestTask implements Runnable, Consumer<TestContext>, FwTask<TestCont
 		if( context == null ) {
 			TestBase.work(-1, this.ident, this+"\n");
 		} else {
+			context.actual.incrementAndGet();
 			TestBase.work(context==null?-1:Integer.parseInt(context.toString()), this.ident, this+"\n");
 		}
 	}
 
 	@Override
 	public void job(TestContext context) {
-		if( !context.isPerfomance ) {
+		context.actual.incrementAndGet();
+		if( context.ident > 0 ) {
 			TestBase.work(context==null?-1:Integer.parseInt(context.toString()), this.ident, this+"\n");
 		} else if(ident == -1) {
 			TestBase.stop();

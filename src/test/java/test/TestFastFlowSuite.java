@@ -9,5 +9,5 @@ import higherorder.TestHighOrderConsumer;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestHighOrderConsumer.class, TestFastFlow1.class, TestFastFlowN.class})
-public class TestFFSuite {
+public class TestFastFlowSuite {
 }

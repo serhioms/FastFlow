@@ -1,20 +1,21 @@
 package fastflow.impl;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /*
  * Simple flow context - takes unique identifier 
  */
 public class TestContext {
 
 	public final int ident;
-	public final boolean isPerfomance;
+	public final AtomicInteger actual = new AtomicInteger(0);
 
 	public TestContext(int ident) {
-		this(ident, false);
+		this.ident = ident;
 	}
 
-	public TestContext(int ident, boolean isPerfomance) {
-		this.ident = ident;
-		this.isPerfomance = isPerfomance;
+	public TestContext() {
+		this.ident = 0;
 	}
 
 	@Override

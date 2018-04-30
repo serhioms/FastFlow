@@ -17,10 +17,10 @@ public class HundredBottleMultyThread {
 		
 		ff.shutdown();
 		
-		System.out.println("Scheduled "+ff.getExecutor().getTaskCount()+" tasks");
-		System.out.println("Completed "+ff.getExecutor().getCompletedTaskCount()+" tasks");
-		System.out.println("Max wait "+ff.getExecutor().getLargestPoolSize()+" tasks");
-		System.out.println("Max pool size "+ff.getExecutor().getMaximumPoolSize());
+		System.out.println("Scheduled "+ff.threadPool.getTaskCount()+" tasks");
+		System.out.println("Completed "+ff.threadPool.getCompletedTaskCount()+" tasks");
+		System.out.println("Max wait "+ff.threadPool.getLargestPoolSize()+" tasks");
+		System.out.println("Max pool size "+ff.threadPool.getMaximumPoolSize());
 	}
 
 }

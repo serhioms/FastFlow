@@ -3,96 +3,80 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import dflow.TestDFlowPerf;
-import fastflow.TestFFPerf1DFlowLike;
-import fastflow.TestFFPerf2DFlowLike;
-import fastflow.TestFFPerfNDFlowLike;
-import higherorder.TestHOPerf2DFlowLike;
+import dflow.TestDisruptorFlowPerfomance;
+import perfomance.impl.TestFastFlowPerfomanceDFLikeLL;
+import perfomance.impl.TestFastFlowPerfomanceDFLikeRB;
+import perfomance.impl.TestHighOrderPerfomanceDFLike;
 
 @RunWith(Suite.class)
-@SuiteClasses({TestDFlowPerf.class, TestHOPerf2DFlowLike.class, TestFFPerf1DFlowLike.class, TestFFPerf2DFlowLike.class, TestFFPerfNDFlowLike.class})
+@SuiteClasses({TestDisruptorFlowPerfomance.class, TestHighOrderPerfomanceDFLike.class, TestFastFlowPerfomanceDFLikeLL.class, TestFastFlowPerfomanceDFLikeRB.class})
 public class CompareDisruptorPerfomance {
 
-	public final static int MAX_TRY = 200_000;
-	public final static String THREAD_SET = "1,2,3,4,8,16";
-	public final static boolean PERFOMANCE = true;;
-
+	public final static int MAX_TRY = 1_000_000;
+	public final static String PUBLISHER_THREADS = "16,8,4,3,2,1";
+	public final static int CONSUMER_POOL = 2;
 }
 
 /*
-=== TestDFlowPerfomance done 200,000 time(s) ===
-Threads Total      OneTry     OneTry(ns)
-------- ---------- ---------- ----------
-1       96.0   mls 480.0   ns    480.000
-2       92.0   mls 460.0   ns    460.000
-3       88.0   mls 440.0   ns    440.000
-4       103.0  mls 515.0   ns    515.000
-8       591.0  mls 3.0    mks   2955.000
-16      2.0    sec 10.0   mks  10045.000
-------- ---------- ---------- ----------
-Expected counter 6800000 vs 6800000 actual
 
-=== TestHighOrderPerfomance2 done 200,000 time(s) ===
-Threads Total      OneTry     OneTry(ns)
+=== TestDisruptorFlowPerfomance done 1,000,000 time(s) ===
+Threads Total      OneTry     OneTry(mks)
 ------- ---------- ---------- ----------
-1       131.0  mls 655.0   ns    655.000
-2       715.0  mls 3.6    mks   3575.000
-3       853.0  mls 4.3    mks   4265.000
-4       1.0    sec 5.0    mks   5000.000
-8       2.3    sec 11.6   mks  11640.000
-16      4.0    sec 20.2   mks  20150.000
+16      9.9    sec 9.9    mks      9.897
+8       3.3    sec 3.3    mks      3.258
+4       739.0  mls 739.0   ns      0.739
+3       550.0  mls 550.0   ns      0.550
+2       320.0  mls 320.0   ns      0.320
+1       117.0  mls 117.0   ns      0.117
 ------- ---------- ---------- ----------
-Expected counter 6800000 vs 6800000 actual
-Scheduled 6800000 tasks
-Completed 6800000 tasks
-Max wait 2 tasks
-Max pool size 2
+Expected counter 204000000 vs 204000000 actual
 
-=== TestFastFlowPerfomance1 done 200,000 time(s) ===
-Threads Total      OneTry     OneTry(ns)
+=== TestHighOrderPerfomanceDFLike done 1,000,000 time(s) ===
+Threads Total      OneTry     OneTry(mks)
 ------- ---------- ---------- ----------
-1       94.0   mls 470.0   ns    470.000
-2       732.0  mls 3.7    mks   3660.000
-3       844.0  mls 4.2    mks   4220.000
-4       852.0  mls 4.3    mks   4260.000
-8       2.9    sec 14.3   mks  14315.000
-16      6.0    sec 30.2   mks  30185.000
+16      22.2   sec 22.2   mks     22.178
+8       12.5   sec 12.5   mks     12.495
+4       5.2    sec 5.2    mks      5.153
+3       4.2    sec 4.2    mks      4.240
+2       3.6    sec 3.6    mks      3.636
+1       429.0  mls 429.0   ns      0.429
 ------- ---------- ---------- ----------
-Expected counter 6800000 vs 6800000 actual
-Scheduled 34000000 tasks
-Completed 34000000 tasks
-Max wait 1 tasks
-Max pool size 1
-
-=== TestFastFlowPerfomance2 done 200,000 time(s) ===
-Threads Total      OneTry     OneTry(ns)
-------- ---------- ---------- ----------
-1       133.0  mls 665.0   ns    665.000
-2       694.0  mls 3.5    mks   3470.000
-3       978.0  mls 4.9    mks   4890.000
-4       1.1    sec 5.3    mks   5275.000
-8       2.8    sec 13.9   mks  13925.000
-16      5.7    sec 28.4   mks  28405.000
-------- ---------- ---------- ----------
-Expected counter 6800000 vs 6800000 actual
+Expected counter 204000000 vs 204000000 actual
 Scheduled 34000000 tasks
 Completed 34000000 tasks
 Max wait 2 tasks
 Max pool size 2
 
-=== TestFastFlowPerfomanceN done 200,000 time(s) ===
-Threads Total      OneTry     OneTry(ns)
+=== TestFastFlowPerfomanceDFLikeLL done 1,000,000 time(s) ===
+Threads Total      OneTry     OneTry(mks)
 ------- ---------- ---------- ----------
-1       184.0  mls 920.0   ns    920.000
-2       700.0  mls 3.5    mks   3500.000
-3       1.0    sec 5.2    mks   5155.000
-4       1.3    sec 6.7    mks   6725.000
-8       3.0    sec 15.1   mks  15115.000
-16      7.2    sec 35.8   mks  35755.000
+16      58.1   sec 58.1   mks     58.146
+8       22.6   sec 22.6   mks     22.573
+4       6.9    sec 6.9    mks      6.901
+3       5.6    sec 5.6    mks      5.605
+2       3.6    sec 3.6    mks      3.610
+1       635.0  mls 635.0   ns      0.635
 ------- ---------- ---------- ----------
-Expected counter 6800000 vs 6800000 actual
-Scheduled 34000000 tasks
-Completed 34000000 tasks
-Max wait 8 tasks
-Max pool size 8
+Expected counter 204000000 vs 204000000 actual
+Scheduled 170000000 tasks
+Completed 170000000 tasks
+Max wait 2 tasks
+Max pool size 2
+
+=== TestFastFlowPerfomanceDFLikeRB done 1,000,000 time(s) ===
+Threads Total      OneTry     OneTry(mks)
+------- ---------- ---------- ----------
+16      50.1   sec 50.1   mks     50.107
+8       18.1   sec 18.1   mks     18.068
+4       8.5    sec 8.5    mks      8.486
+3       3.6    sec 3.6    mks      3.571
+2       2.1    sec 2.1    mks      2.104
+1       363.0  mls 363.0   ns      0.363
+------- ---------- ---------- ----------
+Expected counter 204000000 vs 204000000 actual
+Scheduled 170000000 tasks
+Completed 170000000 tasks
+Max wait 2 tasks
+Max pool size 2
+
 */
