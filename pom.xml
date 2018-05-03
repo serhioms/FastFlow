@@ -23,14 +23,14 @@
 		<dependency>
 			<groupId>ca.rdmss</groupId>
 			<artifactId>fast-threadpool</artifactId>
-			<version>7.0.1</version>
+			<version>8.0.1</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://github.com/serhioms/DisruptorFlow -->
  		<dependency>
 			<groupId>ca.rdmss</groupId>
 			<artifactId>disruptor-flow</artifactId>
-			<version>1.0.0</version>
+			<version>8.0.1</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -45,33 +45,26 @@
 	<build>
 		<finalName>fast-flow</finalName>
 		<plugins>
-			<!-- any other plugins -->
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
 				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<!-- or whatever version you use -->
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-         </plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.6.1</version>
+			</plugin>
+		</plugins>
 	</build>
 </project>
