@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 public class FastFlow<T> {
 
 	private static final int OPTIMAL_POOL_SIZE = Runtime.getRuntime().availableProcessors();
-	static public final long DEF_SHUTDOWN_TIMEOUT_MLS = 100L;
+	static public final long DEF_SHUTDOWN_TIMEOUT = 100L;
 
 	public final ThreadPoolExecutor threadPool;
 
@@ -15,7 +15,7 @@ public class FastFlow<T> {
 	public final FwHighOrder<T> parallel;
 	public final FwHighOrder<T> asynchronous;
 	
-	private long shutdownTimeoutMls = DEF_SHUTDOWN_TIMEOUT_MLS;
+	private long shutdownTimeout = DEF_SHUTDOWN_TIMEOUT;
 	
 	public FastFlow(ThreadPoolExecutor executor) {
 		this.threadPool = executor;
@@ -32,31 +32,19 @@ public class FastFlow<T> {
 		this((ThreadPoolExecutor )Executors.newFixedThreadPool(nThreads));
 	} 
 
-	public void waitForRunning() throws InterruptedException {
-		do {
-			TimeUnit.MILLISECONDS.sleep(shutdownTimeoutMls);
-		} while( isRunning() );
-	}
-	
-	public boolean isRunning() {
-		return !threadPool.getQueue().isEmpty() || threadPool.getActiveCount() > 0;
-	}
-	
 	public void shutdown() throws InterruptedException {
-		threadPool.getQueue().clear();
-		waitForRunning();
-		for(threadPool.shutdown(); !threadPool.awaitTermination(shutdownTimeoutMls, TimeUnit.MILLISECONDS); );
+		for(threadPool.shutdown(); !threadPool.awaitTermination(shutdownTimeout, TimeUnit.MILLISECONDS); );
 	}
 
 	public void halt() throws InterruptedException {
-		for(threadPool.shutdownNow(); !threadPool.awaitTermination(shutdownTimeoutMls, TimeUnit.MILLISECONDS); );
+		for(threadPool.shutdownNow(); !threadPool.awaitTermination(shutdownTimeout, TimeUnit.MILLISECONDS); );
 	}
 
 	public long getShutdownTimeoutMls() {
-		return shutdownTimeoutMls;
+		return shutdownTimeout;
 	}
 
 	public void setShutdownTimeoutMls(long shutdownTimeoutMls) {
-		this.shutdownTimeoutMls = shutdownTimeoutMls;
+		this.shutdownTimeout = shutdownTimeoutMls;
 	}
 }

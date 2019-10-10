@@ -189,7 +189,7 @@ public class TestHighOrderConsumer extends TestBase {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		TestBase.MAX_THREADS = 7; // minimal amount of threads for the test case !!!
+		TestBase.MAX_THREADS = 7; /* minimal amount of threads for the test case !!!*/
 		TestBase.setUpBeforeClass();
 		sequential = HigherOrderConsumer.sequential();
 		parallel = HigherOrderConsumer.parallel(executor);

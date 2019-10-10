@@ -1,12 +1,16 @@
 package test.impl;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -89,6 +93,9 @@ public class TestBase {
 		contextSum = new AtomicInteger(0);
 		concat = new AtomicReference<String>("");
 		trace = new AtomicReference<String>("");
+		threadCounterMap.clear();
+		countTasks.set(0); 
+		countTime.set(0); 
 	}
 
 	static public void done() {
@@ -119,10 +126,18 @@ public class TestBase {
 		return System.currentTimeMillis()-startTime;
 	}
 
-	static AtomicInteger counter = new AtomicInteger(0); 
+	public static AtomicInteger countTasks = new AtomicInteger(0); 
+	public static AtomicLong countTime = new AtomicLong(0); 
+	
+	public static long getTimePerTask(TimeUnit unit) {
+		return countTasks.get()==0?0: unit.convert(countTime.get(), TimeUnit.MILLISECONDS)/countTasks.get();
+	}
 	
 	public static void work(int context, int ident, String newtrace) {
-		//System.out.print(counter.incrementAndGet()+") "+newtrace);
+		long start = System.currentTimeMillis();
+		
+		countTasks.incrementAndGet();
+		countThreads();
 		
 		if( MAX_ITERATION == 1 ) {
 			while(true) {
@@ -154,5 +169,23 @@ public class TestBase {
 				}
 			}
 		}
+		countTime.addAndGet(System.currentTimeMillis()-start);
+	}
+	
+	static Map<String, AtomicInteger> threadCounterMap = new ConcurrentHashMap<String, AtomicInteger>(128);
+	
+	public static void countThreads() {
+		String threadName = Thread.currentThread().getName();
+		AtomicInteger threadCounter = threadCounterMap.get(threadName);
+		if( threadCounter == null ) {
+			threadCounterMap.put(threadName, new AtomicInteger(1));
+		} else {
+			threadCounter.incrementAndGet();
+		}
+	}
+	
+	public static String threadsDistribution(int maxThreads) {
+		/*return threadCounterMap.keySet().stream().collect(Collectors.toList()).toString();*/
+		return threadCounterMap.values().stream().map(a->a.get()).sorted().collect(Collectors.toList()).toString();
 	}
 }

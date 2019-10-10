@@ -9,21 +9,25 @@ import java.util.Arrays;
 public interface FwAdapter {
 
     static FwTask<?> frRunnable(Runnable... runnables) {
-        return (context)->Arrays.stream(runnables).forEach(Runnable::run);
+        return (ctx,st)->{
+        	Arrays.stream(runnables).forEach(Runnable::run);
+        };
     }
 
     static <T> Runnable toRunnable(FwTask<?>... tasks) {
-        return ()->Arrays.stream(tasks).forEach((task)->task.job(null));
+        return ()->Arrays.stream(tasks).forEach((task)->task.job(null,null));
     }
 
     @SafeVarargs
 	static <T> FwTask<T> frConsumer(Consumer<T>... consumers) {
-        return (context)->Arrays.stream(consumers).forEach((consumer)->consumer.accept(context));
+        return (ctx,st)->{
+        	Arrays.stream(consumers).forEach((consumer)->consumer.accept(ctx));
+        };
     }
 
     @SafeVarargs
 	static <T> Consumer<T> toConsumer(FwTask<T>... tasks) {
-        return (context)->Arrays.stream(tasks).forEach((task)->task.job(context));
+        return (context)->Arrays.stream(tasks).forEach((task)->task.job(context, null));
     }
 
 }

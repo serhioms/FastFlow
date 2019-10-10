@@ -11,9 +11,13 @@ public interface FwFlow<T> {
 	 * 
 	 * @T context - flow context provided to any flow task  
 	 */
-	default void start(T context) {
-		doNotUseMeDirectlyPlease(context, 0, 0);
+	default void start(T context, FwState state) {
+		doNotUseMeDirectlyPlease(context, state, 0, 0);
     }
 
-	void doNotUseMeDirectlyPlease(T context, int index, int skip, FwFlow<?>... next);
+	default void start(T context) {
+		doNotUseMeDirectlyPlease(context, new FwState(()->false, false), 0, 0);
+    }
+
+	void doNotUseMeDirectlyPlease(T context, FwState state, int index, int skip, FwFlow<?>... next);
 }

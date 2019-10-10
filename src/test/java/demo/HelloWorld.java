@@ -10,14 +10,14 @@ public class HelloWorld {
 		FastFlow<Object> ff = new FastFlow<Object>();
 		
 		FwFlow<Object> hello = ff.sequential.combine(
-				(a,b,c,d)->System.out.print("Hello"),
-				(a,b,c,d)->System.out.print(","),
-				(a,b,c,d)->System.out.print("World"),
+				(a,b,c,d,e)->Systemoutprint("Hello"),
+				(a,b,c,d,e)->Systemoutprint(","),
+				(a,b,c,d,e)->Systemoutprint("World"),
 				ff.parallel.combine(
-						(a,b,c,d)->System.out.print("!"),
-						(a,b,c,d)->System.out.print("!")
+						(a,b,c,d,e)->Systemoutprint("!"),
+						(a,b,c,d,e)->Systemoutprint("!")
 				),
-				(a,b,c,d)->System.out.println("")
+				(a,b,c,d,e)->Systemoutprint("")
 			);
 		
 		hello.start(null);
@@ -25,4 +25,9 @@ public class HelloWorld {
 		ff.shutdown();
 	}
 
+	static FwFlow<Object> Systemoutprint(String s){
+		System.out.print("!");
+		return null;
+	}
+	
 }

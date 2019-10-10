@@ -6,18 +6,20 @@ import ca.rdmss.fastflow.FwAdapter;
 import fastflow.impl.TestContext;
 import fastflow.impl.TestTask;
 
+@SuppressWarnings("unused")
 public class TestFlowsHighOrder {
 
 	@SuppressWarnings("unchecked")
 	static public <T extends TestContext> Consumer<T> zampleConsumers(HigherOrderConsumer<T> sequential, HigherOrderConsumer<T> parallel) {
 		return sequential.combine(
-				FwAdapter.toConsumer(
+				// TODO: smth wrong here. Please revise.
+/*				FwAdapter.toConsumer(
 						(T c)->TestTask.Job1.job(c),
 						(T c)->TestTask.Job2.job(c),
 						TestTask.Job3::accept,
 						TestTask.Job4::job,
 						TestTask.Job5::accept,
-						TestTask.theEnd::job)
+						TestTask.theEnd::job)*/
 		);
 	}
 
