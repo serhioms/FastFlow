@@ -37,7 +37,7 @@ public interface HigherOrderConsumer<T> {
                 CountDownLatch latch = new CountDownLatch(consumers.length);
                 Arrays.stream(consumers).forEach(consumer -> executor.execute(() -> {
                     try {
-                    	((Consumer<T>)consumer).accept(context); // provide context to consumer
+                    	((Consumer<T>)consumer).accept(context); /* provide context to consumer*/
                     } finally {
                         latch.countDown();
                     }
@@ -56,7 +56,7 @@ public interface HigherOrderConsumer<T> {
 	static <T> HigherOrderConsumer<T> asynchronous(ExecutorService executor) {
         return consumers -> (context) -> {
             Arrays.stream(consumers).forEach(consumer -> executor.execute(() -> {
-               	((Consumer<T>)consumer).accept(context); // provide context to consumer
+               	((Consumer<T>)consumer).accept(context); /* provide context to consumer*/
             }));
         };
     }

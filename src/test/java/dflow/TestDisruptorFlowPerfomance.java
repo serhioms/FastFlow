@@ -18,7 +18,7 @@ import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
 import perfomance.CompareDisruptorPerfomance;
-import perfomance.impl.TestFlowsPerfomanceDLike;
+import perfomance.wkf.TestWorkflowDLike;
 
 @MultiTest(repeatNo=CompareDisruptorPerfomance.MAX_TRY, threadSet=CompareDisruptorPerfomance.PUBLISHER_THREADS)
 public class TestDisruptorFlowPerfomance {
@@ -29,7 +29,7 @@ public class TestDisruptorFlowPerfomance {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 		dflow = new DisruptorFlow<TestContext>();
-		wkf = TestFlowsPerfomanceDLike.zampleDFlow(dflow);
+		wkf = TestWorkflowDLike.zampleDFlow(dflow);
 	}
 
 	@AfterClass
@@ -58,8 +58,8 @@ public class TestDisruptorFlowPerfomance {
 	public void endOfSet(){
 		dflow.stop();
 		
-		// N producers -> 1 consumer
-		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo()*1*TestFlowsPerfomanceDLike.NUMBER_OF_TASK_IN_FLOW);
+		/* N producers -> 1 consumer*/
+		expected.addAndGet(CompareDisruptorPerfomance.MAX_TRY*rule.getThreadNo()*1*TestWorkflowDLike.NUMBER_OF_TASK_IN_FLOW);
 		
 		dflow.start();
 	}

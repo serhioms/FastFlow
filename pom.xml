@@ -5,34 +5,13 @@
 	<groupId>ca.rdmss</groupId>
 	<artifactId>fast-flow</artifactId>
 	<packaging>jar</packaging>
-	<version>8.0.1</version>
+	<version>1.4.0</version>
 	
 	<name>Fast Flow Engine</name>
-	<description>Almost same fast as LMaxDisruptor but multi-threaded</description>
+	<description>Lock free multi threaded lightweight workflow engine for parallel and sequential tasks</description>
 	<url>https://github.com/serhioms/FastFlow</url>
 
 	<dependencies>
-		<!-- https://github.com/serhioms/MultiTest -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>ca.rdmss</groupId> -->
-<!-- 			<artifactId>multi-test</artifactId> -->
-<!-- 			<version>1.3.0</version> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
-		<!-- https://github.com/serhioms/MultiTest -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>ca.rdmss</groupId> -->
-<!-- 			<artifactId>fast-threadpool</artifactId> -->
-<!-- 			<version>8.0.1</version> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
-		<!-- https://github.com/serhioms/DisruptorFlow -->
-<!--  		<dependency> -->
-<!-- 			<groupId>ca.rdmss</groupId> -->
-<!-- 			<artifactId>disruptor-flow</artifactId> -->
-<!-- 			<version>8.0.1</version> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -40,6 +19,30 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>		
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.3.6</version>
+			<scope>test</scope>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>ca.rdmss</groupId> -->
+<!-- 			<artifactId>multi-test</artifactId> -->
+<!-- 			<version>1.4.0</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+<!--  		<dependency> -->
+<!-- 			<groupId>ca.rdmss</groupId> -->
+<!-- 			<artifactId>disruptor-flow</artifactId> -->
+<!-- 			<version>1.4.0</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>ca.rdmss</groupId> -->
+<!-- 			<artifactId>fast-threadpool</artifactId> -->
+<!-- 			<version>1.4.0</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency>	 -->
 	 </dependencies>
 	
 	<build>
@@ -50,9 +53,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
 				<configuration>
-					<!-- or whatever version you use -->
-					<source>1.8</source>
-					<target>1.8</target>
 					<testExcludes>
 						<testExclude>demo/Hundred*</testExclude>
 						<testExclude>dflow/**</testExclude>
@@ -78,4 +78,11 @@
 			</plugin>
 		</plugins>
 	</build>
+		
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 </project>

@@ -13,20 +13,36 @@ public class HundredBottleFlow {
 		return createRecursively(sequential, parallel, new AtomicInteger(101));
 	}
 
+
+	static FwFlow<Object> Systemoutprintln(String s){
+		System.out.println("!");
+		return null;
+	}
+
+	static FwFlow<Object> Systemoutprint(String s){
+		System.out.print("!");
+		return null;
+	}
+
+	static FwFlow<Object> Systemoutprintf(String format, Object ... args){
+		System.out.printf(format, args);
+		return null;
+	}
+
 	private static FwFlow<String> createRecursively(FwHighOrder<String> sequential, FwHighOrder<String> parallel, AtomicInteger n) {
 		return n.get() == 1?
 			sequential.combine(
-				(a,b,c,d)->System.out.println("No more bottles of beer on the wall, no more bottles of beer."),
-				(a,b,c,d)->System.out.println("We've taken them down and passed them around; now we're drunk and passed out!")
+				(a,b,c,d,e)->Systemoutprintln("No more bottles of beer on the wall, no more bottles of beer."),
+				(a,b,c,d,e)->Systemoutprintln("We've taken them down and passed them around; now we're drunk and passed out!")
 			):
 			sequential.combine(
-				(a,b,c,d)->System.out.printf("%d bottles of beer on the wall, %d bottles of beer.\n", n.get(), n.get()),
-				(a,b,c,d)->System.out.print("Take one down, pass it around, "),
+				(a,b,c,d,e)->Systemoutprintf("%d bottles of beer on the wall, %d bottles of beer.\n", n.get(), n.get()),
+				(a,b,c,d,e)->Systemoutprint("Take one down, pass it around, "),
 				parallel.combine(
-						(a,b,c,d)->System.out.print("la, "),
-						(a,b,c,d)->System.out.print("lA, "),
-						(a,b,c,d)->System.out.print("La, "),
-						(a,b,c,d)->System.out.print("LA, ")
+						(a,b,c,d,e)->Systemoutprint("la, "),
+						(a,b,c,d,e)->Systemoutprint("lA, "),
+						(a,b,c,d,e)->Systemoutprint("La, "),
+						(a,b,c,d,e)->Systemoutprint("LA, ")
 				),
 				parallel.combine(createRecursively(sequential, parallel, new AtomicInteger(n.decrementAndGet())))
 			);
@@ -43,17 +59,17 @@ public class HundredBottleFlow {
 	private static Consumer<String> createRecursively(HigherOrderConsumer<String> sequential, HigherOrderConsumer<String> parallel, AtomicInteger n) {
 		return n.get() == 1? 
 			sequential.combine(
-					(a)->System.out.println("No more bottles of beer on the wall, no more bottles of beer."),
-					(a)->System.out.println("We've taken them down and passed them around; now we're drunk and passed out!")
+					(a)->Systemoutprintln("No more bottles of beer on the wall, no more bottles of beer."),
+					(a)->Systemoutprintln("We've taken them down and passed them around; now we're drunk and passed out!")
 				):
 			sequential.combine(
-				(a)->System.out.printf("%d bottles of beer on the wall, %d bottles of beer.\n", n.get(), n.get()),
-				(a)->System.out.print("Take one down, pass it around, "),
+				(a)->Systemoutprintf("%d bottles of beer on the wall, %d bottles of beer.\n", n.get(), n.get()),
+				(a)->Systemoutprint("Take one down, pass it around, "),
 				parallel.combine(
-					(a)->System.out.print("la, "),
-					(a)->System.out.print("lA, "),
-					(a)->System.out.print("La, "),
-					(a)->System.out.print("LA, ")
+					(a)->Systemoutprint("la, "),
+					(a)->Systemoutprint("lA, "),
+					(a)->Systemoutprint("La, "),
+					(a)->Systemoutprint("LA, ")
 				),
 				parallel.combine(createRecursively(sequential, parallel, new AtomicInteger(n.decrementAndGet())))
 			);

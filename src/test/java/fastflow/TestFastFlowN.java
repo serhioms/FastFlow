@@ -203,7 +203,7 @@ public class TestFastFlowN extends TestBase {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		TestBase.MAX_THREADS = Runtime.getRuntime().availableProcessors(); // minimal amount of threads for the test case is 1 !!!
+		TestBase.MAX_THREADS = Runtime.getRuntime().availableProcessors(); /* minimal amount of threads for the test case is 1 !!!*/
 		TestBase.setUpBeforeClass();
 		sequential = FwHighOrder.sequential(executor);
 		parallel = FwHighOrder.parallel(executor);

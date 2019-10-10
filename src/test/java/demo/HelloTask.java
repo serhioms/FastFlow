@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import ca.rdmss.fastflow.FastFlow;
 import ca.rdmss.fastflow.FwFlow;
+import ca.rdmss.fastflow.FwState;
 import ca.rdmss.fastflow.FwTask;
 import demo.HelloTask.HelloContext;
 
@@ -26,7 +27,7 @@ public class HelloTask implements FwTask<HelloContext> {
 	 * Flow task implementation has just A parameter - flow context
 	 */
 	@Override
-	public void job(HelloContext context) {
+	public void job(HelloContext context, FwState state) {
 		System.out.printf("%d) %s\n", context.counter.incrementAndGet(), phrase);
 	}
 

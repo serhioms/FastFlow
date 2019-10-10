@@ -13,7 +13,7 @@ public class HundredBottleSingleThread {
 				HundredBottleFlow.getInstance(ff.sequential, ff.parallel)
 			);
 		
-		hundredBottleFlow.start(null);
+		hundredBottleFlow.start(null,null);
 		
 		ff.shutdown();
 		

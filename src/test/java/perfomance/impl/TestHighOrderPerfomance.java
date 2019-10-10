@@ -20,6 +20,7 @@ import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
 import higherorder.impl.HigherOrderConsumer;
 import perfomance.CompareHighOrderPerfomancePerfomance;
+import perfomance.wkf.TestWorkflowFLike;
 
 @MultiTest(repeatNo=CompareHighOrderPerfomancePerfomance.MAX_TRY, threadSet=CompareHighOrderPerfomancePerfomance.PUBLISHER_THREADS)
 public class TestHighOrderPerfomance {
@@ -35,7 +36,7 @@ public class TestHighOrderPerfomance {
 		HigherOrderConsumer<TestContext> sequential = HigherOrderConsumer.sequential();
 		HigherOrderConsumer<TestContext> parallel = HigherOrderConsumer.parallel(executor);
 		
-		wkf = TestFlowsPerfomanceFLike.complexFlow(sequential, parallel);
+		wkf = TestWorkflowFLike.complexFlow(sequential, parallel);
 	}
 
 	@AfterClass
@@ -64,7 +65,7 @@ public class TestHighOrderPerfomance {
 		while(!executor.getQueue().isEmpty() || executor.getActiveCount() > 0) {
 			TimeUnit.NANOSECONDS.sleep(1);
 		}
-		expected.addAndGet(CompareHighOrderPerfomancePerfomance.MAX_TRY*rule.getThreadNo()*TestFlowsPerfomanceFLike.NUMBER_OF_TASK_IN_FLOW);
+		expected.addAndGet(CompareHighOrderPerfomancePerfomance.MAX_TRY*rule.getThreadNo()*TestWorkflowFLike.NUMBER_OF_TASK_IN_FLOW);
 	}
 
 	@Test

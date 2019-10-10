@@ -2,6 +2,7 @@ package perfomance.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.AfterClass;
@@ -17,6 +18,7 @@ import ca.rdmss.multitest.annotation.MultiThread;
 import ca.rdmss.multitest.junitrule.MultiTestRule;
 import fastflow.impl.TestContext;
 import perfomance.CompareHighOrderPerfomancePerfomance;
+import perfomance.wkf.TestWorkflowFLike;
 
 @MultiTest(repeatNo=CompareHighOrderPerfomancePerfomance.MAX_TRY, threadSet=CompareHighOrderPerfomancePerfomance.PUBLISHER_THREADS)
 public class TestFastFlowPerfomance {
@@ -27,7 +29,7 @@ public class TestFastFlowPerfomance {
 	@BeforeClass
 	public static void runBeforeClass() throws Exception {
 		ff = new FastFlow<TestContext>();
-		wkf = TestFlowsPerfomanceFLike.complexFlow(ff.sequential, ff.parallel);
+		wkf = TestWorkflowFLike.complexFlow(ff.sequential, ff.parallel);
 	}
 
 	@AfterClass
@@ -53,8 +55,10 @@ public class TestFastFlowPerfomance {
 	
 	@MultiEndOfSet
 	public void endOfSet() throws InterruptedException {
-		ff.waitForRunning();
-		expected.addAndGet(CompareHighOrderPerfomancePerfomance.MAX_TRY*rule.getThreadNo()*TestFlowsPerfomanceFLike.NUMBER_OF_TASK_IN_FLOW);
+		expected.addAndGet(CompareHighOrderPerfomancePerfomance.MAX_TRY*rule.getThreadNo()*TestWorkflowFLike.NUMBER_OF_TASK_IN_FLOW);
+		while( expected.get() != context.actual.get() ) {
+			TimeUnit.NANOSECONDS.sleep(CompareHighOrderPerfomancePerfomance.nanosleep);
+		}
 	}
 
 	@Test
