@@ -16,6 +16,10 @@ public class FwState {
 		this.isDebug.set(isDebug);
 	}
 
+	public FwState() {
+		this(()->false, false);
+	}
+
 	public void flowStop() {
 		isRunning.set(false);
 	}
