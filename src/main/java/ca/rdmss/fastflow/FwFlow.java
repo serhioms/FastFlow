@@ -6,6 +6,8 @@ package ca.rdmss.fastflow;
 @FunctionalInterface
 public interface FwFlow<T> {
 
+	public static final FwState DEFAULT_STATE = new FwState(()->false, false);
+	
 	/*
 	 * The only applicable method for given flow instance
 	 * 
@@ -16,7 +18,7 @@ public interface FwFlow<T> {
     }
 
 	default void start(T context) {
-		doNotUseMeDirectlyPlease(context, new FwState(()->false, false), 0, 0);
+		doNotUseMeDirectlyPlease(context, DEFAULT_STATE, 0, 0);
     }
 
 	void doNotUseMeDirectlyPlease(T context, FwState state, int index, int skip, FwFlow<?>... next);

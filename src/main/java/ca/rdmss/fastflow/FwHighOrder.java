@@ -3,6 +3,8 @@ package ca.rdmss.fastflow;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import ca.rdmss.fastflow.impl.FwCycle;
 /*
  * High-order flow interface. You can build your flow vie sequential parallel and asynchronous interfaces.
  *  
@@ -12,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public interface FwHighOrder<T> {
 	
 	static public final Package THIS_PACKAGE = FwHighOrder.class.getPackage();
+	static public final Package CYCLE_PACKAGE = FwCycle.class.getPackage();
 	
 	/*
 	 * Combines given FwFlow<?> into single one
@@ -26,6 +29,7 @@ public interface FwHighOrder<T> {
 	@SuppressWarnings("unchecked")
 	static <T> FwHighOrder<T> sequential(ExecutorService executor) {
 		 return tasks -> (context, state, index, skip, next) -> {
+				//System.out.printf("seq: %b task=%d.%d, next=%d.%d, cycle=%b\n", state==null?false:state.isFlowRunning(), tasks.length, 1+index, skip, next==null?0:next.length, state==null?false:state.isCycle());
 				if( state == null || state.isFlowRunning() ) {
 				 	if( index < tasks.length ) {
 				 		FwFlow<T> task = (FwFlow<T> )tasks[index];
@@ -34,10 +38,19 @@ public interface FwHighOrder<T> {
 								if( 1+index < tasks.length || next.length > 0) {
 									sequential(executor).combine(tasks).doNotUseMeDirectlyPlease(context, state, 1+index, skip, next);
 								}
-							});
+							}); 
+						} else if( task.getClass().getPackage() == CYCLE_PACKAGE ) {
+							task.doNotUseMeDirectlyPlease(context, state, 0, 0); 
+							if( !state.isCycle() ) {
+								if( 1+index < tasks.length || next.length > 0 ) {
+									executor.execute(() -> {
+										sequential(executor).combine(tasks).doNotUseMeDirectlyPlease(context, state, 1+index, skip, next);
+									});
+								}
+							}
 						} else {
 							task.doNotUseMeDirectlyPlease(context, state, 0 ,0);
-							if( 1+index < tasks.length || next.length > 0) {
+							if( 1+index < tasks.length || next.length > 0 ) {
 								executor.execute(() -> {
 									sequential(executor).combine(tasks).doNotUseMeDirectlyPlease(context, state, 1+index, skip, next);
 								});
@@ -58,13 +71,14 @@ public interface FwHighOrder<T> {
 	@SuppressWarnings("unchecked")
 	static <T> FwHighOrder<T> parallel(ExecutorService executor) {
         return tasks -> (context, state, index, skip, next) -> {
+			//System.out.printf("seq: %b task=%d.%d, next=%d.%d, cycle=%b\n", state==null?false:state.isFlowRunning(), tasks.length, 1+index, skip, next==null?0:next.length, state==null?false:state.isCycle());
 			if( state == null || state.isFlowRunning() ) {
 	        	final AtomicInteger latch = new AtomicInteger(tasks.length);
 				Arrays.stream(tasks).forEach( t -> executor.execute(() -> {
 			 		FwFlow<T> task = (FwFlow<T> )t;
 					if( task.getClass().getPackage() == THIS_PACKAGE ) {
 						((FwFlow<T> )task).doNotUseMeDirectlyPlease(context, state, 0, 0, (a,b,c,d,e)->{
-							if( latch.decrementAndGet() == 0) {
+							if( latch.decrementAndGet() == 0 ) {
 								if( next.length > 0 ){
 									sequential(executor).combine(next).doNotUseMeDirectlyPlease(context, state, skip, 0);
 								}
@@ -72,7 +86,7 @@ public interface FwHighOrder<T> {
 						});
 					} else {
 						((FwFlow<T> )task).doNotUseMeDirectlyPlease(context, state, 0, 0);
-						if( latch.decrementAndGet() == 0) {
+						if( latch.decrementAndGet() == 0 ) {
 							if( next.length > 0 ){
 								sequential(executor).combine(next).doNotUseMeDirectlyPlease(context, state, skip, 0);
 							}
