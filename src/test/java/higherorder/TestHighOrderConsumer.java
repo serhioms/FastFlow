@@ -21,7 +21,7 @@ public class TestHighOrderConsumer extends TestBase {
 		
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample32(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -36,7 +36,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample62(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -51,7 +51,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample8(sequential, parallel);
 
-		for(int i=1; i<=MAX_ITERATION; i++) {
+		for(int i=1; i<=MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -66,7 +66,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample7(sequential, parallel);
 				
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -81,7 +81,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample6(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -96,7 +96,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample5(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -111,7 +111,7 @@ public class TestHighOrderConsumer extends TestBase {
 		
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample4(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -126,7 +126,7 @@ public class TestHighOrderConsumer extends TestBase {
 		
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample3(sequential, parallel);
 
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -141,7 +141,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample2(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -156,7 +156,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zample1(sequential, parallel);
 		
-		for(int i=0; i<MAX_ITERATION; i++) {
+		for(int i=0; i<MAX_ITERATION; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
@@ -171,7 +171,7 @@ public class TestHighOrderConsumer extends TestBase {
 
 		Consumer<TestContext> wkf = TestFlowsHighOrder.zampleConsumers(sequential, parallel);
 		
-		for(int i=1; i<=1; i++) {
+		for(int i=1; i<=1; ++i) {
 			TestBase.init();
 			wkf.accept(new TestContext(i));
 			TestBase.done();
