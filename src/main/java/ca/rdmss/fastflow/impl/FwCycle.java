@@ -7,6 +7,7 @@ import ca.rdmss.fastflow.FwTask;
 public class FwCycle<T> {
 
 	private FwFlow<T> subflow;
+	@SuppressWarnings("unused")
 	private final FwState state;
 	
 	public FwCycle() {
